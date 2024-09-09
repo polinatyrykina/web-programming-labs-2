@@ -1,0 +1,18 @@
+body {
+    background-color: rgb(108, 159, 204);
+    color: #000;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 25px;
+}
+
+img {
+    height: auto;
+    width: 50%;
+    border-radius: 4px;
+    margin-left: 25%;
+    margin-right: auto;
+    
+}
