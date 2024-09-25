@@ -4,10 +4,10 @@ app = Flask(__name__)
 @app.route("/lab2/example")
 def example():
     name = 'Тырыкина Полина'
-    number = '2'
+    lab_num = '2'
     group = '23'
     course = '3'
-    return render_template('example.html', name=name, number=number, group=group, course=course)
+    return render_template('example.html', name=name, lab_num=lab_num, group=group, course=course)
 
 @app.route("/")
 @app.route("/index")
