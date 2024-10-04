@@ -32,6 +32,10 @@ def example():
 def lab2():
     return render_template('lab2.html')
 
+@app.route("/lab2/cat")
+def cat():
+    return render_template('cat.html')
+
 @app.route("/")
 @app.route("/index")
 def start():
