@@ -34,3 +34,31 @@ footer {
 .div1 {
     text-align: center;
 }
+h1 {
+    color: #333;
+}
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+label {
+    margin-bottom: 10px;
+    display: block;
+}
+button {
+    background-color: #5c98b8;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #4c4eae;
+}
