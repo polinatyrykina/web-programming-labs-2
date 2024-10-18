@@ -18,7 +18,7 @@ def menu():
     return '''
 <!DOCTYPE html>
 <html>
-<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1.css') + '''">
+<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1/lab1.css') + '''">
     <head>
         <title>НГТУ, ФБ, Лабораторные работы</title>
     </head>

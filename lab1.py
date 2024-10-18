@@ -6,7 +6,7 @@ def lab():
     return '''
 <!DOCTYPE html>
 <html>
-<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1.css') + '''">
+<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1/main.css') + '''">
     <head>
         <title>Тырыкина Полина Анатольевна, лабораторная 1</title>
     </head>
@@ -53,7 +53,7 @@ def oak():
     return '''
 <!DOCTYPE html>
 <html>
-<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1.css') + '''">
+<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1/lab1.css') + '''">
     <body>
         <h1>Дуб</h1>
 
@@ -64,7 +64,7 @@ def oak():
         поит теперь только их. Дуб боится морозов. Молодые листья и стебли весной погибают при заморозках. Чтобы уберечься от этой беды, дуб начинает зеленеть поздно, чуть ли не позднее всех деревьев. 
         От весны всего можно ждать, в том числе поздних заморозков.</p>
         
-        <img src="''' + url_for('static', filename = 'oak.jpg') + ''' ">
+        <img src="''' + url_for('static', filename = 'lab1/oak.jpg') + ''' ">
 
     </body>
 </html>
@@ -75,10 +75,10 @@ def student():
     return '''
 <!DOCTYPE html>
 <html>
-<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1.css') + '''">
+<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1/lab1.css') + '''">
     <body>
         <h1>Тырыкина Полина Анатольевна</h1>
-        <img src="''' + url_for('static', filename = 'NETI.png') + ''' ">
+        <img src="''' + url_for('static', filename = 'lab1/NETI.png') + ''' ">
     </body>
 </html>
 '''
@@ -88,7 +88,7 @@ def python():
     return '''
 <!DOCTYPE html>
 <html>
-<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1.css') + '''">
+<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1/lab1.css') + '''">
     <body>
         <h1>Python как язык программирования</h1>
         <p>Python — это высокоуровневый язык программирования, отличающийся 
@@ -104,7 +104,7 @@ def python():
         каникулах. Хотя сама идея создания нового языка появилась у него двумя годами 
         ранее. Имя ему Гвидо взял из своей любимой развлекательной передачи «Летающий цирк Монти Пайтона». </p>
         
-        <img src="''' + url_for('static', filename = 'python.png') + ''' ">
+        <img src="''' + url_for('static', filename = 'lab1/python.png') + ''' ">
     </body>
 </html>
 '''
@@ -114,7 +114,7 @@ def zemfira():
     return '''
 <!DOCTYPE html>
 <html>
-<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1.css') + '''">
+<link rel = "stylesheet" href="''' + url_for('static', filename = 'lab1/lab1.css') + '''">
     <body>
         <h1>Тексты и тематика песен Земфиры</h1>
         <p>Тексты песен Земфиры отличаются своеобразием и неповторимым стилем. 
@@ -128,7 +128,7 @@ def zemfira():
         писал, что влияния на музыку певицы можно отыскать в произведениях нероссийских 
         артистов. </p>
         
-        <img src="''' + url_for('static', filename = 'zemfira.jpg') + ''' ">
+        <img src="''' + url_for('static', filename = 'lab1/zemfira.jpg') + ''' ">
     </body>
 </html>
 '''

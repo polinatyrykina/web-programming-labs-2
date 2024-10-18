@@ -25,13 +25,13 @@ def example():
         {'name':'Семья для чемпиона', 'author': 'Коваль Алекс', 'genre':'Любовные романы', 'count':480},
         {'name':'Клинок, рассекающий демонов. Том 1 ', 'author': 'Готогэ Коёхару', 'genre':'Манга', 'count':192},
     ]
-    return render_template('example.html', name=name, lab_num=lab_num, 
+    return render_template('/lab2/example.html', name=name, lab_num=lab_num, 
                            group=group, course=course, fruits=fruits, books=books)
 
 @lab2.route("/lab2/")
 def lab():
-    return render_template('lab2.html')
+    return render_template('/lab2/lab2.html')
 
 @lab2.route("/lab2/cat")
 def cat():
-    return render_template('cat.html')
+    return render_template('/lab2/cat.html')
