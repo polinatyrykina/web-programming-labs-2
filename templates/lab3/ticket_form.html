@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block  lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Заказ железнодорожного билета</h1>
+    <form action="/lab3/ticket_form" method="POST">
+        <label for="passenger_name">ФИО пассажира:</label><br>
+        <input type="text" id="passenger_name" name="passenger_name" required><br><br>
+
+        <label for="shelf_type">Полка:</label><br>
+        <select id="shelf_type" name="shelf_type" required>
+            <option value="нижняя">Нижняя</option>
+            <option value="верхняя">Верхняя</option>
+            <option value="нижняя боковая">Нижняя боковая</option>
+            <option value="верхняя боковая">Верхняя боковая</option>
+        </select><br><br>
+
+        <label for="with_linen">С бельём:</label><br>
+        <input type="checkbox" id="with_linen" name="with_linen" value="on"><br><br>
+
+        <label for="with_baggage">С багажом:</label><br>
+        <input type="checkbox" id="with_baggage" name="with_baggage" value="on"><br><br>
+
+        <label for="age">Возраст:</label><br>
+        <input type="number" id="age" name="age" min="1" max="120" required><br><br>
+
+        <label for="departure_point">Пункт выезда:</label><br>
+        <input type="text" id="departure_point" name="departure_point" required><br><br>
+
+        <label for="destination_point">Пункт назначения:</label><br>
+        <input type="text" id="destination_point" name="destination_point" required><br><br>
+
+        <label for="travel_date">Дата поездки:</label><br>
+        <input type="date" id="travel_date" name="travel_date" required><br><br>
+
+        <label for="with_insurance">Нужна ли страховка:</label><br>
+        <input type="checkbox" id="with_insurance" name="with_insurance" value="on"><br><br>
+
+        <input type="submit" value="Заказать билет">
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li style="color:red;">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% if errors %}
+        <ul style="color:red;">
+            {% for error in errors.values() %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endblock %}

@@ -87,3 +87,57 @@ def settings():
         return resp  # Перенаправляем на тот же маршрут для обновления отображаемых значений
     
     return resp
+
+@lab3.route("/lab3/ticket_form", methods=['GET', 'POST']) 
+def ticket_form(): 
+    errors = {}
+    if request.method == 'POST':
+        passenger_name = request.form.get('passenger_name')
+        shelf_type = request.form.get('shelf_type')
+        with_linen = request.form.get('with_linen')
+        with_baggage = request.form.get('with_baggage')
+        age = request.form.get('age')
+        departure_point = request.form.get('departure_point')
+        destination_point = request.form.get('destination_point')
+        travel_date = request.form.get('travel_date')
+        with_insurance = request.form.get('with_insurance')
+
+        # Проверка на пустые поля
+        if not all([passenger_name, shelf_type, age, departure_point, destination_point, travel_date]):
+            flash("Все поля, кроме 'Багаж' и 'Страховка', должны быть заполнены!", "error")
+            return redirect(url_for('lab3.ticket_form'))
+
+        # Проверка возраста
+        if not age.isdigit() or not (1 <= int(age) <= 120):
+            flash("Возраст должен быть от 1 до 120 лет!", "error")
+            return redirect(url_for('lab3.ticket_form'))
+
+        # Расчет стоимости
+        price = 1000 if int(age) >= 18 else 700
+        if shelf_type in ['нижняЫя', 'нижняя боковая']:
+            price += 100
+        if with_linen == 'on':
+            price += 75
+        if with_baggage == 'on':
+            price += 250
+        if with_insurance == 'on':
+            price += 150
+
+        # Параметры для передачи в шаблон
+        age_int = int(age)  # Преобразование возраста в целое число
+        return render_template('lab3/ticket.html', 
+                               passenger_name=passenger_name, 
+                               shelf_type=shelf_type,
+                               with_linen=with_linen, 
+                               with_baggage=with_baggage, 
+                               age=age_int,  # Отправляем как целое
+                               departure_point=departure_point, 
+                               destination_point=destination_point,
+                               travel_date=travel_date, 
+                               with_insurance=with_insurance,
+                               price=price)
+
+    return render_template('lab3/ticket_form.html', errors=errors)
+
+
+    
