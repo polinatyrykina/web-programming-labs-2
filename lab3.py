@@ -87,6 +87,16 @@ def settings():
         return resp  # Перенаправляем на тот же маршрут для обновления отображаемых значений
     
     return resp
+@lab3.route('/lab3/settings/clear_cookies')
+def clear_cookies():
+    resp = make_response(redirect(url_for('lab3.settings')))
+
+    resp.set_cookie('color', '', expires=0)
+    resp.set_cookie('background_color', '', expires=0)
+    resp.set_cookie('font_size', '', expires=0)
+    resp.set_cookie('font_family', '', expires=0)
+
+    return resp
 
 @lab3.route("/lab3/ticket_form", methods=['GET', 'POST']) 
 def ticket_form(): 

@@ -4,6 +4,7 @@
 
 {% block main %}
     <h1>Cookies</h1>
+    
     <form>
         <div>
             <label class="label" for="color">Выберите цвет текста:</label>
@@ -31,8 +32,12 @@
         </div>
         <div>
             <button type="submit">OK</button>
-        </div>
+        </div
     </form>
+
+    <div>
+        <a href="{{ url_for('lab3.clear_cookies') }}">Очистить настройки</a>
+    </div>
 
     <style>
         body {
