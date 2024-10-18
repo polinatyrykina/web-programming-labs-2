@@ -150,4 +150,36 @@ def ticket_form():
     return render_template('lab3/ticket_form.html', errors=errors)
 
 
+books = [
+    {'name': 'Зверобой', 'author': 'Купер Джеймс Фенимор', 'genre': 'Детская художественная литература', 'count': 480, 'price': 500, 'publisher': 'Эксмо', 'year': 2005},
+    {'name': 'Шанхайская головоломка', 'author': 'Чэнь Ши', 'genre': 'Детективный роман', 'count': 288, 'price': 700, 'publisher': 'АСТ', 'year': 2012},
+    {'name': 'Сюжет', 'author': 'Корелиц Джин', 'genre': 'Детективный роман', 'count': 480, 'price': 850, 'publisher': 'Рипол Классик', 'year': 2020},
+    {'name': 'Сказать жизни "ДА!": психолог в концлагере', 'author': 'Франкл Виктор', 'genre': 'Психология личности', 'count': 239, 'price': 1200, 'publisher': 'Актион', 'year': 2018},
+    {'name': 'Дом, в котором...', 'author': 'Петросян Мариам', 'genre': 'Современная проза', 'count': 944, 'price': 400, 'publisher': 'Молодая гвардия', 'year': 2019},
+    {'name': 'Мара и Морок. Трилогия', 'author': 'Арден Лия', 'genre': 'Фэнтези', 'count': 800, 'price': 900, 'publisher': 'Эксмо', 'year': 2021},
+    {'name': 'Ночь морлоков', 'author': 'Джетер Кевин Уэйн', 'genre': 'Научная фантастика', 'count': 320, 'price': 780, 'publisher': 'Астрель', 'year': 2015},
+    {'name': 'Семья для чемпиона', 'author': 'Коваль Алекс', 'genre': 'Любовные романы', 'count': 480, 'price': 600, 'publisher': 'Иностранка', 'year': 2017},
+    {'name': 'Клинок, рассекающий демонов. Том 1', 'author': 'Готогэ Коёхару', 'genre': 'Манга', 'count': 192, 'price': 500, 'publisher': 'Тесса', 'year': 2021},
+    {'name': '1984', 'author': 'Джордж Оруэлл', 'genre': 'Драматургия', 'count': 150, 'price': 1500, 'publisher': 'Азбука', 'year': 2009},
+    {'name': 'Мастер и Маргарита', 'author': 'Булгаков Михаил', 'genre': 'Роман', 'count': 370, 'price': 1000, 'publisher': 'Эксмо', 'year': 2011},
+    {'name': 'Война и мир', 'author': 'Толстой Лев', 'genre': 'Роман', 'count': 1200, 'price': 2000, 'publisher': 'Правда', 'year': 2010},
+    {'name': 'Гарри Поттер и философский камень', 'author': 'Роулинг Джоан', 'genre': 'Фэнтези', 'count': 600, 'price': 750, 'publisher': 'Росмэн', 'year': 2000},
+    {'name': 'Пиковая дама', 'author': 'Пушкин Александр', 'genre': 'Сказка', 'count': 200, 'price': 250, 'publisher': 'Художественная литература', 'year': 1985},
+    {'name': 'Унесенные ветром', 'author': 'Митчелл Маргарет', 'genre': 'Роман', 'count': 300, 'price': 1500, 'publisher': 'Наука', 'year': 2016},
+    {'name': 'Фауст', 'author': 'Гёте Иоганн', 'genre': 'Трагедия', 'count': 444, 'price': 600, 'publisher': 'Атлант', 'year': 2020},
+    {'name': 'Старик и море', 'author': 'Хемингуэй Эрнест', 'genre': 'Роман', 'count': 225, 'price': 450, 'publisher': 'Мир', 'year': 2014},
+    {'name': 'Лолита', 'author': 'Набоков Владимир', 'genre': 'Роман', 'count': 310, 'price': 1200, 'publisher': 'Астрель', 'year': 2019},
+    {'name': 'Маленький принц', 'author': 'Антуан де Сент-Экзюпери', 'genre': 'Сказка', 'count': 240, 'price': 400, 'publisher': 'Астрель', 'year': 2012}
+]
+
+@lab3.route('/lab3/search', methods=['GET'])
+def search():
+    min_price = request.args.get('min_price', type=int)
+    max_price = request.args.get('max_price', type=int)
     
+    filtered_books = []
+    
+    if min_price is not None and max_price is not None:
+        filtered_books = [book for book in books if min_price <= book['price'] <= max_price]
+    
+    return render_template('lab3/search.html', books=filtered_books, min_price=min_price, max_price=max_price)

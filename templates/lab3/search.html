@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block  lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h1>Поиск книг по ценовому диапазону</h1>
+
+        <form action="/lab3/search" method="get" class="mb-4">
+            <div class="form-group">
+                <label for="min_price">Минимальная цена:</label>
+                <input type="number" class="form-control" name="min_price" id="min_price" required>
+            </div>
+            <div class="form-group">
+                <label for="max_price">Максимальная цена:</label>
+                <input type="number" class="form-control" name="max_price" id="max_price" required>
+            </div>
+            <button type="submit" class="btn btn-success">Искать</button>
+        </form>
+
+        <h2>Результаты поиска от {{ min_price }} до {{ max_price }}:</h2>
+        <ul class="list-group">
+            {% if books %}
+                {% for book in books %}
+                    <li class="list-group-item">
+                        <strong>{{ book.name }}</strong> - {{ book.author }}<br>
+                        Жанр: {{ book.genre }}<br>
+                        Цена: {{ book.price }}<br>
+                        Издательство: {{ book.publisher }}, Год: {{ book.year }}
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">Книги не найдены.</li>
+            {% endif %}
+{% endblock %}
