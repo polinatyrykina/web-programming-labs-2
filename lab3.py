@@ -63,3 +63,26 @@ def success():
     price = request.args.get('price')
     return render_template('lab3/success.html', price=price)
 
+@lab3.route('/lab3/settings')
+def settings():
+    color = request.args.get('color')
+    background_color = request.args.get('background_color')
+    font_size = request.args.get('font_size')
+    font_family = request.args.get('font_family')
+    
+    resp = make_response(render_template('lab3/settings.html', color=color, background_color=background_color, font_size=font_size, font_family=font_family))
+    
+    if color or background_color or font_size or font_family:
+        # Устанавливаем куки с новыми значениями
+        if color:
+            resp.set_cookie('color', color)
+        if background_color:
+            resp.set_cookie('background_color', background_color)
+        if font_size:
+            resp.set_cookie('font_size', font_size)
+        if font_family:
+            resp.set_cookie('font_family', font_family)
+        
+        return resp  # Перенаправляем на тот же маршрут для обновления отображаемых значений
+    
+    return resp

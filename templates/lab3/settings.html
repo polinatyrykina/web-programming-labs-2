@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block  lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Cookies</h1>
+    <form>
+        <div>
+            <label class="label" for="color">Выберите цвет текста:</label>
+            <input type="color" id="color" name="color" value="{{ color or '' }}">
+        </div>
+        <div>
+            <label class="label" for="background_color">Выберите цвет фона:</label>
+            <input type="color" id="background_color" name="background_color" value="{{ background_color or '' }}">
+        </div>
+        <div>
+            <label class="label" for="font_size">Размер шрифта:</label>
+            <select id="font_size" name="font_size">
+                <option value="16px" {% if font_size == '16px' %}selected{% endif %}>16px</option>
+                <option value="18px" {% if font_size == '18px' %}selected{% endif %}>18px</option>
+                <option value="20px" {% if font_size == '20px' %}selected{% endif %}>20px</option>
+                <option value="22px" {% if font_size == '22px' %}selected{% endif %}>22px</option>
+            </select>
+        </div>
+        <div>
+            <label class="label" for="font_family">Выберите шрифт:</label>
+            <select id="font_family" name="font_family">
+                <option value="Arial" {% if font_family == 'Arial' %}selected{% endif %}>Arial</option>
+                <option value="Courier New" {% if font_family == 'Courier New' %}selected{% endif %}>Courier New</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">OK</button>
+        </div>
+    </form>
+
+    <style>
+        body {
+            color: {{ color or 'black' }};
+            background-color: {{ background_color or 'white' }};
+            font-size: {{ font_size or '16px' }};
+            font-family: {{ font_family or 'Arial' }};  
+        }
+    </style>
+{% endblock %}
