@@ -1,0 +1,18 @@
+{% extends "base.html" %} 
+
+<meta charset="UTF-8">
+{% block lab %}Холодильник{% endblock %} 
+
+{% block main %} 
+    <h1>Настройка температуры холодильника</h1> 
+    <form method="post">
+        <label for="temperature">Введите температуру (°C):</label>
+        <input type="text" id="temperature" name="temperature" value="{{ temperature }}">
+        <button type="submit">Установить температуру</button>
+    </form>
+
+    {% if message %}
+        <p>{{ message|safe }}</p>
+    {% endif %}
+        
+{% endblock %}
