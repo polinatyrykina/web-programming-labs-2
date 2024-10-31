@@ -1,0 +1,16 @@
+{% extends "base.html" %} 
+
+{% block lab %}Деление чисел{% endblock %} 
+
+{% block main %} 
+    {% if error %} 
+        {{ error }} 
+    {% elif error1 %} 
+        {{ error1 }} 
+    {% else %} 
+        <h1>Возведение чисел в степень </h1> 
+        {{ x1 }} ** {{ x2 }} = {{ result }} 
+    {% endif %} 
+    <br>
+    <a href="{{ url_for('lab4.pow_form')}}">Назад к форме</a>
+{% endblock %}
