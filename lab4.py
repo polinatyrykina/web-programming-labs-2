@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for,  render_template, request, make_response, redirect
+from flask import Blueprint, redirect, render_template, request, make_response, redirect, session
 lab4 = Blueprint('lab4', __name__)
 
 @lab4.route('/lab4/')
@@ -124,14 +124,26 @@ users = [
 @lab4.route('/lab4/login', methods = ['GET','POST'])
 def login():
     if request.method == 'GET':
-        return render_template('lab4/login.html', authorized=False)
+        if 'login' in session:
+            authorized = True
+            login = session['login']
+        else:
+            authorized = False
+            login = ''
+        return render_template('lab4/login.html', authorized=authorized, login=login)
     
     login = request.form.get('login')
     password = request.form.get('password')
 
     for user in users:
         if login == user['login'] and password == user['password']:
-            return render_template('/lab4/login.html', authorized=True, login=login)
+            session['login'] = login
+            return redirect('/lab4/login')
     
     error = 'Неверные логин и/или пароль'
     return render_template('lab4/login.html', error=error, authorized=False)
+
+@lab4.route('/lab4/logout', methods = ['POST'])
+def logout():
+    session.pop('login', None)
+    return redirect('/lab4/login')
