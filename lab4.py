@@ -117,21 +117,21 @@ def tree():
 users = [
     {'login': 'alex', 'password': 'password123', 'name': 'Александр Александров'},
     {'login': 'john9977', 'password': 'abc123', 'name': 'Иван Иванов'},
-    # добавьте других пользователей по аналогии...
 ]
 
 @lab4.route('/lab4/login', methods=['GET', 'POST']) 
 def login(): 
-    if request.method == 'GET': 
-        if 'login' in session: 
-            authorized = True 
-            login = session['login'] 
-            user_name = [user['name'] for user in users if user['login'] == login][0] 
-        else: 
-            authorized = False 
-            login = '' 
+    if request.method == 'GET':
+        if 'login' in session:
+            authorized = True
+            login = session['login']
+            matching_users = [user for user in users if user['login'] == login]
+            user_name = matching_users[0]['name'] if matching_users else ''
+        else:
+            authorized = False
+            login = ''
             user_name = ''
-        return render_template('lab4/login.html', authorized=authorized, login=login, user_name=user_name) 
+        return render_template('lab4/login.html', authorized=authorized, login=login, user_name=user_name)
 
     login = request.form.get('login') 
     password = request.form.get('password') 
@@ -147,7 +147,7 @@ def login():
     for user in users: 
         if login == user['login'] and password == user['password']: 
             session['login'] = login 
-            return redirect('/lab4/login') 
+            return redirect('/lab4/users')
 
     error = 'Неверные логин и/или пароль' 
     return render_template('lab4/login.html', error=error, authorized=False, login=login)
@@ -232,3 +232,59 @@ def order_grain():
                            f"{discount_message}")
 
     return render_template('lab4/order_grain.html', message=message)
+
+@lab4.route('/lab4/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        login = request.form.get('login')
+        password = request.form.get('password')
+
+        # Проверка на заполненность полей
+        if not name or not login or not password:
+            error = 'Все поля обязательны для заполнения.'
+            return render_template('lab4/register.html', error=error)
+        
+        if any(user['login'] == login for user in users):
+            error = 'Этот логин уже занят.'
+            return render_template('lab4/register.html', error=error)
+        
+        # Регистрация нового пользователя
+        users.append({'name': name, 'login': login, 'password': password})
+        return redirect('/lab4/login')  # Перенаправление на страницу логина
+
+    return render_template('lab4/register.html')
+
+@lab4.route('/lab4/users', methods=['GET'])
+def users1():
+    if 'login' not in session:
+        return redirect('/lab4/login')
+    
+    return render_template('lab4/users.html', users=users)
+
+@lab4.route('/lab4/delete/<user_login>', methods=['POST'])
+def delete_user(user_login):
+    global users
+    users = [user for user in users if user['login'] != user_login]
+    return redirect('/lab4/users')
+
+@lab4.route('/lab4/edit/<user_login>', methods=['GET', 'POST'])
+def edit_user(user_login):
+    user = next((u for u in users if u['login'] == user_login), None)
+
+    if request.method == 'POST':
+        new_name = request.form.get('name')
+        new_password = request.form.get('password')
+
+        # Проверка на заполненность полей
+        if not new_name or not new_password:
+            error = 'Все поля обязательны для заполнения.'
+            return render_template('lab4/edit.html', user=user, error=error)
+        
+        # Изменение данных пользователя
+        user['name'] = new_name
+        user['password'] = new_password
+        
+        return redirect('/lab4/users')
+
+    return render_template('lab4/edit.html', user=user)
