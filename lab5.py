@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, make_response, redirect, session
 import psycopg2
 from  psycopg2.extras import RealDictCursor
+from werkzeug.security import check_password_hash, generate_password_hash
 
 lab5 = Blueprint('lab5', __name__)
 
@@ -26,11 +27,12 @@ def db_close(conn, cur):
 
 @lab5.route('/lab5/register', methods = ['GET','POST'])
 def register():
+
     if request.method == 'GET':
         return render_template('lab5/register.html')
     
     login = request.form.get('login')
-    password = request.form.get('password ')
+    password = request.form.get('password')
 
     if not (login or password):
         return render_template('lab5/register.html', error='Заполните все поля')
@@ -43,7 +45,8 @@ def register():
         return render_template('lab5/register.html',
                                error = "Такой пользователь не существует")
     
-    cur.execute(f"INSERT INTO users (login,password) VALUES ('{login}', '{password}');")
+    password_hash = generate_password_hash(password)
+    cur.execute(f"INSERT INTO users (login,password) VALUES ('{login}', '{password_hash}');")
     db_close(conn, cur)
 
     return render_template('lab5/success.html', login=login)
@@ -74,7 +77,7 @@ def login():
         db_close(conn, cur)
         return render_template('lab5/login.html', error='Логин и/или пароль неверны') 
 
-    if user['password'] != password:  
+    if not check_password_hash(user['password'], password):  
         db_close(conn, cur) 
         return render_template('lab5/login.html', error='Логин и/или пароль неверны') 
 
