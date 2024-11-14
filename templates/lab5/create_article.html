@@ -18,5 +18,8 @@
         <div>
             <button type="submit">Готово</button>
         </div>
+        {% if error %}
+        <div style="color: red; font-weight: bold;">{{ error }}</div>
+        {% endif %}
     </form>
 {% endblock %}

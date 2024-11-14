@@ -7,6 +7,8 @@
 
     <p>Пользователь: {{ login or 'anonymous' }}</p>
 
+    <a href="{{ url_for('lab5.logout') }}">Выход</a>
+
     <ol>
         <li>
             <a href="/lab5/login">Вход</a>

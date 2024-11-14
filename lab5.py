@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, redirect, session, current_app
+from flask import Blueprint, redirect, render_template, request, redirect, session, current_app, url_for
 import psycopg2
 from  psycopg2.extras import RealDictCursor
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -65,7 +65,7 @@ def register():
     password_hash = generate_password_hash(password)
 
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("INSERT INTO users (login, password) VALUES (%s, %s;", (login, password_hash))
+        cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", (login, password_hash))
     else:
         cur.execute("INSERT INTO users (login, password) VALUES (?, ?);", (login, password_hash))
     
@@ -122,6 +122,9 @@ def create():
     
     title = request.form.get('title')
     article_text = request.form.get('article_text')  
+    
+    if not title or not article_text:
+        return render_template('lab5/create_article.html', error='Заполните все поля')
 
     conn, cur = db_connect()
  
@@ -161,5 +164,34 @@ def list():
         cur.execute("SELECT * FROM articles WHERE login_id=?;", (login_id, ))
     articles = cur.fetchall()
 
+    if not articles:
+        message = "У вас нет ни одной статьи."
+    else:
+        message = None
+
     db_close(conn, cur)
-    return render_template('/lab5/articles.html', articles=articles)
+    return render_template('/lab5/articles.html', articles=articles, message=message)
+
+@lab5.route('/lab5/articles')
+def view_articles():
+    login = session.get('login')
+    if not login:
+        return redirect(url_for('lab5.login'))
+
+    conn, cur = db_connect()
+    
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM articles WHERE login=%s;", (login,))
+    else:
+        cur.execute("SELECT * FROM articles WHERE login=?;", (login,))
+    
+    articles = cur.fetchall()
+    db_close(conn, cur)
+
+    return render_template('lab5/articles.html', articles=articles, login=login)
+
+@lab5.route('/lab5/logout')
+def logout():
+    session.pop('login', None)
+    return redirect(url_for('lab5.login')) 
+
