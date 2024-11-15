@@ -172,26 +172,86 @@ def list():
     db_close(conn, cur)
     return render_template('/lab5/articles.html', articles=articles, message=message)
 
-@lab5.route('/lab5/articles')
-def view_articles():
-    login = session.get('login')
-    if not login:
-        return redirect(url_for('lab5.login'))
-
-    conn, cur = db_connect()
-    
-    if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM articles WHERE login=%s;", (login,))
-    else:
-        cur.execute("SELECT * FROM articles WHERE login=?;", (login,))
-    
-    articles = cur.fetchall()
-    db_close(conn, cur)
-
-    return render_template('lab5/articles.html', articles=articles, login=login)
-
 @lab5.route('/lab5/logout')
 def logout():
     session.pop('login', None)
     return redirect(url_for('lab5.login')) 
+
+@lab5.route('/lab5/edit/<int:article_id>', methods=['GET', 'POST'])
+def edit(article_id):
+    login = session.get('login')
+
+    if not login:
+        return redirect('lab5/login')
+
+    conn, cur = db_connect()
+    
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
+    else:
+        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+    login_id = cur.fetchone()
+
+    if not login_id:
+        return "Пользователь не найден", 404
+    
+    login_id = login_id["id"]
+
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM articles WHERE id=%s AND login_id=%s;", (article_id, login_id))
+    else:
+        cur.execute("SELECT * FROM articles WHERE id=? AND login_id=?;", (article_id, login_id))
+    article = cur.fetchone()
+    
+    if not article:
+        return "Статья не найдена", 404
+
+    # Добавьте отладочный вывод здесь
+    print(article)  # Вывод данных статьи в консоль
+
+    if request.method == 'POST':
+        title = request.form.get('title')
+        article_text = request.form.get('article_text')
+
+        if not title or not article_text:
+            return render_template('lab5/edit_article.html', article=article, error='Заполните все поля')
+
+        # Обновление статьи
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("UPDATE articles SET title=%s, article_text=%s WHERE id=%s;", (title, article_text, article_id))
+        else:
+            cur.execute("UPDATE articles SET title=?, article_text=? WHERE id=?;", (title, article_text, article_id))
+
+        db_close(conn, cur)
+        return redirect('/lab5')
+
+    db_close(conn, cur)
+
+    # Отладочный вывод перед рендерингом
+    print("Рендеринг шаблона edit_article с данными:", article)
+    return render_template('lab5/edit_article.html', article=article)
+
+@lab5.route('/lab5/delete/<int:article_id>', methods=['POST'])
+def delete_article(article_id):
+    login = session.get('login')
+
+    if not login:
+        return redirect('lab5/login')
+
+    conn, cur = db_connect()
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
+    else:
+        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+    login_id = cur.fetchone()["id"]
+
+    # Удаляем статью
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("DELETE FROM articles WHERE id=%s AND login_id=%s;", (article_id, login_id))
+    else:
+        cur.execute("DELETE FROM articles WHERE id=? AND login_id=?;", (article_id, login_id))
+
+    db_close(conn, cur)
+    
+    return redirect('/lab5')
 

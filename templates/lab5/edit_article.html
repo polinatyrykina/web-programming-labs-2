@@ -1,0 +1,23 @@
+
+{% extends "base.html" %} 
+
+{% block content %} 
+    <h1>Редактировать статью</h1>
+
+    {% if error %} 
+        <p style="color: red;">{{ error }}</p> 
+    {% endif %} 
+
+    <h2>Данные статьи:</h2>
+    <pre>{{ article | tojson }}</pre>  <!-- Это должно отобразить данные статьи в JSON формате -->
+
+    <form method="POST"> 
+        <label for="title">Заголовок:</label> 
+        <input type="text" id="title" name="title" value="{{ article.get('title') }}" required><br> 
+
+        <label for="article_text">Текст статьи:</label> 
+        <textarea id="article_text" name="article_text" required>{{ article.get('article_text') }}</textarea><br> 
+
+        <button type="submit">Сохранить изменения</button> 
+    </form>
+{% endblock %}
