@@ -3,17 +3,74 @@
 {% block  lab %}Лабораторная работа 5{% endblock %}
 
 {% block main %}
+<style>
+    .page-title {
+        text-align: center;
+        font-size: 36px;
+        margin-bottom: 25px;
+        font-family: 'Times New Roman', Times, serif;
+        color: #112161;
+    }
+
+    .articles-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .articletitle {
+        font-size: 24px;
+        font-weight: bold;
+        color: #211687;
+        margin-bottom: 10px;
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .article-text {
+        font-size: 16px;
+        color: #15096d;
+        font-family: 'Times New Roman', Times, serif;
+        margin-bottom: 10px;
+    }
+
+    .favorite-badge {
+        color: #270a51;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 5px;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+</style>
 <a href="/lab5">Перейти в меню</a>
-    <h1>Статьи</h1>
+
+    <h1 class="page-title" >Статьи</h1>
+
     {% if message %}
         <p>{{ message }}</p>
     {% else %}
+        <div class="articles-list"></div>
         {% for article in articles %}
-            <h2>{{ article['title'] }}</h2>
-            <blockquote>{{ article['article_text'] }}</blockquote>
-            <button type="submit"><a href="{{ url_for('lab5.edit', article_id=article['id']) }}">Редактировать</a></button>
-            <form action="{{ url_for('lab5.delete_article', article_id=article['id']) }}" method="POST" style="display:inline;">
-            <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить эту статью?');">Удалить</button>
+            <h2 class="articletitle" >{{ article['title'] }}</h2>
+
+            <div>
+                <blockquote class="article-text" >{{ article['article_text'] }}</blockquote>
+                
+                {% if article['is_favorite'] %}
+                    <div class="favorite-badge">
+                        <strong>Эта статья в любимом!</strong>
+                    </div>
+                {% endif %}
+
+                <button type="submit"><a href="{{ url_for('lab5.edit', article_id=article['id']) }}">Редактировать</a></button>
+                <form action="{{ url_for('lab5.delete_article', article_id=article['id']) }}" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить эту статью?');">Удалить</button>
+            
+            </div>
+        </div>
         {% endfor %}
     {% endif %}
 {% endblock %}
