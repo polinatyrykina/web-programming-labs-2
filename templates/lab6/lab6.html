@@ -22,14 +22,23 @@ function getOfficeList() {
     .then(function(data) {
         const office_list = data.result;
         const ul = document.getElementById('office-list');
+        ul.innerHTML = ''; // Очистка списка перед обновлением
+
+        // Переменная для суммы арендованных офисов
+        let total_rent = 0;
         for (let i = 0; i < office_list.length; i++) {
             const office = office_list[i];
             const li = document.createElement('li');
-            li.innerText = `${office.number}: ${office.tenant || 'свободен'}`;
+            li.innerText = `Офис ${office.number}: ${office.tenant || 'свободен'}, Стоимость аренды: ${office.price}₽`;
+
+            // Если офис арендуется, добавляем стоимость к общей аренде
+            if (office.tenant) {
+                total_rent += office.price;
+            }
 
             const bookingButton = document.createElement('button');
             bookingButton.innerText = 'Зарезервировать';
-            bookingButton.onclick = function() {booking(office.number)};
+            bookingButton.onclick = function() { booking(office.number) };
             li.appendChild(bookingButton);
 
             // Создание кнопки для отмены бронирования (если офис забронирован)
@@ -42,9 +51,12 @@ function getOfficeList() {
 
             ul.appendChild(li);
         }
+
+        // Отображение общей стоимости аренды
+        const totalRentElement = document.getElementById('total-rent');
+        totalRentElement.innerText = `Общая стоимость аренды: ${total_rent}₽`;
     });
 }
-
 function booking(officeNumber) {
     const url = '/lab6/json-rpc-api';
     const json = {
@@ -120,5 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <h>Список кабинетов</h>
     <ul id="office-list"></ul>
+    <div id="total-rent">Общая стоимость аренды: 0₽</div> 
 
 {% endblock %}
