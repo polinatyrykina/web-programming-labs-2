@@ -230,7 +230,6 @@ def delete_article(article_id):
         cur.execute("SELECT id FROM users WHERE login=?;", (login,))
     login_id = cur.fetchone()["id"]
 
-    # Удаляем статью
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("DELETE FROM articles WHERE id=%s AND login_id=%s;", (article_id, login_id))
     else:
