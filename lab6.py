@@ -77,6 +77,7 @@ def api():
     
     if data['method'] == 'booking':
         office_number = data['params']
+
         if current_app.config['DB_TYPE'] == 'postgres':
             cur.execute("SELECT tenant FROM offices WHERE number=%s;", (office_number,))
         else:
