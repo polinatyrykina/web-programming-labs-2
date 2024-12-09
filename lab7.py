@@ -94,3 +94,11 @@ def get_film(id):
     if not film:
         abort(404, description="Фильм не найден")
     return jsonify(film)
+
+
+@lab7.route('/lab7/rest-api/films/<int:id>', methods=['DELETE'])
+def delete_film(id):
+    conn, cur = db_connect()
+    cur.execute("DELETE FROM films WHERE id = %s;", (id,))
+    db_close(conn, cur)
+    return '', 204
