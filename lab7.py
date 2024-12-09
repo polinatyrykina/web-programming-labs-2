@@ -83,8 +83,6 @@ def del_film(id):
     del films[id]
     return '',204
 
-
-
 @lab7.route('/lab7/rest-api/films/', methods=['PUT'])
 def put_films():
     if id < 0 or id >= len(films):
@@ -92,4 +90,10 @@ def put_films():
     film = request.get_json()
     films[id] = film
 
+@lab7.route('/lab7/rest-api/films/', methods=['POST'])
+def add_film():
+    film = request.get_json()
+    films.append(film)
+    new_index = len(films) - 1
+    return jsonify({"index": new_index}), 201
 
