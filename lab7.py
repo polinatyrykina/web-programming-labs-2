@@ -5,25 +5,9 @@ from psycopg2.extras import RealDictCursor
 
 lab7 = Blueprint('lab7', __name__)
 
-def db_connect():
-    conn = psycopg2.connect(
-        host='127.0.0.1',
-        database='polina_tyrykina_knowledge_base',
-        user='polina_tyrykina_knowledge_base',
-        password='123'
-    )
-    cur = conn.cursor(cursor_factory=RealDictCursor)
-    return conn, cur
-
-def db_close(conn, cur):
-    conn.commit()
-    cur.close()
-    conn.close()
-
 @lab7.route('/lab7/')
 def main():
     return render_template('lab7/lab7.html')
-
 
 films = [
     {
@@ -87,18 +71,25 @@ def get_films():
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET'])
 def get_film(id):
-    conn, cur = db_connect()
-    cur.execute("SELECT * FROM films WHERE id = %s;", (id,))
-    film = cur.fetchone()
-    db_close(conn, cur)
-    if not film:
-        abort(404, description="Фильм не найден")
-    return jsonify(film)
+    if id < 0 or id >= len(films):
+        abort(404, description="Film not found")
+    return jsonify(films[id])
 
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['DELETE'])
-def delete_film(id):
-    conn, cur = db_connect()
-    cur.execute("DELETE FROM films WHERE id = %s;", (id,))
-    db_close(conn, cur)
-    return '', 204
+def del_film(id):
+    if id < 0 or id >= len(films):
+        abort(404, description="Film not found")
+    del films[id]
+    return '',204
+
+
+
+@lab7.route('/lab7/rest-api/films/', methods=['PUT'])
+def put_films():
+    if id < 0 or id >= len(films):
+        abort(404, description="Film not found")
+    film = request.get_json()
+    films[id] = film
+
+
