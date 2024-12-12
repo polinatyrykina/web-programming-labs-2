@@ -88,14 +88,83 @@ def update_film(id):
     if id < 0 or id >= len(films):
         abort(404, description="Film not found")
 
-    updated_film = request.get_json()
-    films[id] = updated_film
+    film = request.get_json()
+    title = film.get('title')
+    title_ru = film.get('title_ru')
+    year = film.get('year')
+    description = film.get('description')
+
+    if not title and title_ru:
+        title = title_ru
+
+
+    errors = {}
+    try:
+        year = int(year)
+    except ValueError:
+        errors['year'] = 'Год выпуска должен быть числом'
+
+    if not title_ru and not title:
+        errors['title_ru'] = 'Должно быть указано хотя бы одно название фильма (на русском или оригинальном)'
+    if not description or len(description) > 2000:
+        errors['description'] = 'Описание должно быть указано и не превышать 2000 символов'
+    if not (1895 <= year <= 2024):
+        errors['year'] = 'Год выпуска должен быть между 1895 и 2024'
+
+    # Если есть ошибки, возвращаем их
+    if errors:
+        return jsonify(errors), 400
+
+    # Обновляем фильм
+    films[id] = {
+        'title': title,
+        'title_ru': title_ru,
+        'year': year,
+        'description': description
+    }
+
+    # Возвращаем обновленный фильм
     return jsonify(films[id]), 200
 
 @lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_film():
     new_film = request.get_json()
-    films.append(new_film)
+    title = new_film.get('title')
+    title_ru = new_film.get('title_ru')
+    year = new_film.get('year')
+    description = new_film.get('description')
+
+    # Если оригинальное название пустое, используем русское
+    if not title and title_ru:
+        title = title_ru
+
+    # Проверка данных
+    errors = {}
+    try:
+        year = int(year)
+    except ValueError:
+        errors['year'] = 'Год выпуска должен быть числом'
+
+    # Проверка, что хотя бы одно из названий заполнено
+    if not title_ru and not title:
+        errors['title_ru'] = 'Должно быть указано хотя бы одно название фильма (на русском или оригинальном)'
+    if not description or len(description) > 2000:
+        errors['description'] = 'Описание должно быть указано и не превышать 2000 символов'
+    if not (1895 <= year <= 2024):
+        errors['year'] = 'Год выпуска должен быть между 1895 и 2024'
+
+    # Если есть ошибки, возвращаем их
+    if errors:
+        return jsonify(errors), 400
+
+    # Добавляем фильм
+    films.append({
+        'title': title,
+        'title_ru': title_ru,
+        'year': year,
+        'description': description
+    })
+
+    # Возвращаем ID нового фильма
     new_index = len(films) - 1
     return jsonify({"id": new_index}), 201
-

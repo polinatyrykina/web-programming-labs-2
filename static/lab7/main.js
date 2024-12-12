@@ -14,18 +14,33 @@ function fillFilmList() {
             let tdYear = document.createElement('td');
             let tdActions = document.createElement('td');
 
-            tdTitleRus.innerText = films[i].title == films[i].title_ru ? '' : films[i].title;
-            tdTitle.innerText = films[i].title_ru;
+
+            if (films[i].title) {
+                tdTitle.innerHTML = `<span class="original-title">${films[i].title}</span>`;
+            } else if (films[i].title_ru) {
+                // Если оригинальное название пустое, используем русское
+                tdTitle.innerHTML = `<span class="original-title">${films[i].title_ru}</span>`;
+            } else {
+                tdTitle.innerHTML = '';
+            }
+
+            // Русское название
+            tdTitleRus.innerText = films[i].title_ru;
+
+            // Год
             tdYear.innerText = films[i].year;
 
+            // Кнопки действий
             let editButton = document.createElement('button');
             editButton.innerText = 'Редактировать';
+            editButton.className = 'edit';
             editButton.onclick = function () {
                 editFilm(i);
             };
 
             let delButton = document.createElement('button');
             delButton.innerText = 'Удалить';
+            delButton.className = 'delete';
             delButton.onclick = function () {
                 deleteFilm(i, films[i].title_ru);
             };
@@ -75,6 +90,12 @@ function addFilm() {
 }
 
 function sendFilm() {
+    // Очищаем сообщения об ошибках
+    document.getElementById('title-ru-error').innerText = '';
+    document.getElementById('title-error').innerText = '';
+    document.getElementById('year-error').innerText = '';
+    document.getElementById('description-error').innerText = '';
+
     const id = document.getElementById('id').value; // Получаем id из поля ввода
     const film = {
         title: document.getElementById('title').value,
@@ -84,25 +105,39 @@ function sendFilm() {
     };
 
     const url = `/lab7/rest-api/films/${id}`; // Используем id для обновления
-    const method = id ? 'PUT' : 'POST'; // Если id есть, используем PUT, иначе POST
+    const method = id ? 'PUT' : 'POST'; 
 
     fetch(url, {
         method: method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(film)
     })
-    .then(function (response) {
-        if (!response.ok) {
-            throw new Error('Ошибка при обновлении/добавлении фильма');
+    .then(function (resp) {
+        if (resp.ok) {
+            fillFilmList(); 
+            hideModal(); 
+            return {};
         }
-        return response.json();
+        return resp.json(); 
     })
-    .then(function () {
-        fillFilmList(); // Обновляем список фильмов
-        hideModal(); // Скрываем модальное окно
+    .then(function (errors) {
+        if (errors) {
+            if (errors.title_ru) {
+                document.getElementById('title-ru-error').innerText = errors.title_ru;
+            }
+            if (errors.title) {
+                document.getElementById('title-error').innerText = errors.title;
+            }
+            if (errors.year) {
+                document.getElementById('year-error').innerText = errors.year;
+            }
+            if (errors.description) {
+                document.getElementById('description-error').innerText = errors.description;
+            }
+        }
     })
     .catch(function (error) {
-        console.error('Ошибка:', error);
+        console.error('Ошибка при отправке данных:', error);
     });
 }
 
@@ -112,7 +147,7 @@ function editFilm(id) {
         return data.json();
     })
     .then(function (film) {
-        document.getElementById('id').value = id; // Устанавливаем id в поле ввода
+        document.getElementById('id').value = id; 
         document.getElementById('title').value = film.title;
         document.getElementById('title-ru').value = film.title_ru;
         document.getElementById('year').value = film.year;
