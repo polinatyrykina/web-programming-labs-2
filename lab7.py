@@ -83,13 +83,14 @@ def del_film(id):
     del films[id]
     return '',204
 
-@lab7.route('/lab7/rest-api/films/', methods=['PUT'])
-def put_films():
+@lab7.route('/lab7/rest-api/films/<int:id>', methods=['PUT'])
+def update_film(id):
     if id < 0 or id >= len(films):
         abort(404, description="Film not found")
-    film = request.get_json()
-    films[id] = film
-    return films[id]
+
+    updated_film = request.get_json()
+    films[id] = updated_film
+    return jsonify(films[id]), 200
 
 @lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_film():

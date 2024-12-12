@@ -21,7 +21,7 @@ function fillFilmList() {
             let editButton = document.createElement('button');
             editButton.innerText = 'Редактировать';
             editButton.onclick = function () {
-                editFilm(films[i].id);
+                editFilm(i);
             };
 
             let delButton = document.createElement('button');
@@ -75,24 +75,53 @@ function addFilm() {
 }
 
 function sendFilm() {
+    const id = document.getElementById('id').value; // Получаем id из поля ввода
     const film = {
         title: document.getElementById('title').value,
         title_ru: document.getElementById('title-ru').value,
         year: document.getElementById('year').value,
         description: document.getElementById('description').value
-    }
+    };
 
-    const url = `/lab7/rest-api/films/`;
-    const method ='POST';
+    const url = `/lab7/rest-api/films/${id}`; // Используем id для обновления
+    const method = id ? 'PUT' : 'POST'; // Если id есть, используем PUT, иначе POST
 
     fetch(url, {
         method: method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(film)
     })
-    .then(function () {
-            fillFilmList(); 
-            hideModal(); 
-            return {};
+    .then(function (response) {
+        if (!response.ok) {
+            throw new Error('Ошибка при обновлении/добавлении фильма');
+        }
+        return response.json();
     })
+    .then(function () {
+        fillFilmList(); // Обновляем список фильмов
+        hideModal(); // Скрываем модальное окно
+    })
+    .catch(function (error) {
+        console.error('Ошибка:', error);
+    });
 }
+
+function editFilm(id) {
+    fetch(`/lab7/rest-api/films/${id}`)
+    .then(function (data) {
+        return data.json();
+    })
+    .then(function (film) {
+        document.getElementById('id').value = id; // Устанавливаем id в поле ввода
+        document.getElementById('title').value = film.title;
+        document.getElementById('title-ru').value = film.title_ru;
+        document.getElementById('year').value = film.year;
+        document.getElementById('description').value = film.description;
+        showModal();
+    })
+    .catch(function (error) {
+        console.error('Ошибка при загрузке данных фильма:', error);
+    });
+}
+
+fillFilmList();
