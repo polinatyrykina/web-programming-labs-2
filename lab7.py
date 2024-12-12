@@ -13,15 +13,13 @@ def db_connect():
             host = '127.0.0.1',
             database = 'polina_tyrykina_knowledge_base',
             user = 'polina_tyrykina_knowledge_base',
-            password = '123'
+            password = '123',
+            client_encoding='UTF8'
         )
         cur = conn.cursor(cursor_factory=RealDictCursor)
     else:
         dir_path = path.dirname(path.realpath(__file__))
         db_path = path.join(dir_path, "database.db")
-        print(f"Database path: {db_path}")
-        if not os.path.exists(os.path.dirname(db_path)):
-            os.makedirs(os.path.dirname(db_path)) 
         conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
