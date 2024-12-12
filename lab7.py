@@ -25,6 +25,23 @@ def db_connect():
         cur = conn.cursor()
     return conn, cur
 
+
+def db_connect():
+    conn = psycopg2.connect(
+        host='127.0.0.1',
+        database='polina_tyrykina_knowledge_base',
+        user='polina_tyrykina_knowledge_base',
+        password='123'
+    )
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    return conn, cur
+
+def db_close(conn, cur):
+    conn.commit()
+    cur.close()
+    conn.close()
+
+
 def db_close(conn, cur):
     conn.commit()
     cur.close()
