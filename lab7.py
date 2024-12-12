@@ -7,24 +7,6 @@ from psycopg2.extras import RealDictCursor
 
 lab7 = Blueprint('lab7', __name__)
 
-def db_connect():
-    if current_app.config['DB_TYPE'] == 'postgres':
-        conn = psycopg2.connect(
-            host = '127.0.0.1',
-            database = 'polina_tyrykina_knowledge_base',
-            user = 'polina_tyrykina_knowledge_base',
-            password = '123',
-            client_encoding='UTF8'
-        )
-        cur = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        dir_path = path.dirname(path.realpath(__file__))
-        db_path = path.join(dir_path, "database.db")
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cur = conn.cursor()
-    return conn, cur
-
 
 def db_connect():
     conn = psycopg2.connect(
