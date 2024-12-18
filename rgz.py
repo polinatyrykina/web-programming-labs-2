@@ -138,8 +138,10 @@ def profile():
 
     return render_template('/rgz/profile.html', user=user)
 
+
 @rgz.route('/rgz/search', methods=['GET'])
 def search():
+    # Получаем параметры поиска из запроса
     query = request.args.get('query')
     service_type = request.args.get('service_type')
     min_experience = request.args.get('min_experience')
@@ -208,7 +210,14 @@ def search():
     results = cur.fetchall()
     db_close(conn, cur)
 
-    return render_template('/rgz/search.html', results=results, page=page)
+    # Создаем ссылку для следующей страницы с сохранением параметров поиска
+    next_page_url = None
+    if len(results) == 5:  # Если есть еще результаты
+        next_page_url = url_for('rgz.search', page=page + 1, query=query, service_type=service_type,
+                                min_experience=min_experience, max_experience=max_experience,
+                                min_price=min_price, max_price=max_price)
+
+    return render_template('/rgz/search.html', results=results, page=page, next_page_url=next_page_url)
 
 
 @rgz.route('/rgz/logout')

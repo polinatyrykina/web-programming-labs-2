@@ -5,27 +5,27 @@
 <form method="GET" class="search-form">
     <div class="form-group">
         <label for="query">Имя:</label>
-        <input type="text" id="query" name="query">
+        <input type="text" id="query" name="query" value="{{ request.args.get('query', '') }}">
     </div>
     <div class="form-group">
         <label for="service_type">Вид услуги:</label>
-        <input type="text" id="service_type" name="service_type">
+        <input type="text" id="service_type" name="service_type" value="{{ request.args.get('service_type', '') }}">
     </div>
     <div class="form-group">
         <label for="min_experience">Стаж (от):</label>
-        <input type="number" id="min_experience" name="min_experience">
+        <input type="number" id="min_experience" name="min_experience" value="{{ request.args.get('min_experience', '') }}">
     </div>
     <div class="form-group">
         <label for="max_experience">Стаж (до):</label>
-        <input type="number" id="max_experience" name="max_experience">
+        <input type="number" id="max_experience" name="max_experience" value="{{ request.args.get('max_experience', '') }}">
     </div>
     <div class="form-group">
         <label for="min_price">Цена (от):</label>
-        <input type="number" id="min_price" name="min_price">
+        <input type="number" id="min_price" name="min_price" value="{{ request.args.get('min_price', '') }}">
     </div>
     <div class="form-group">
         <label for="max_price">Цена (до):</label>
-        <input type="number" id="max_price" name="max_price">
+        <input type="number" id="max_price" name="max_price" value="{{ request.args.get('max_price', '') }}">
     </div>
     <button type="submit" class="submit-button">Поиск</button>
 </form>
@@ -44,9 +44,9 @@
     {% endfor %}
 </ul>
 
-{% if results %}
+{% if next_page_url %}
     <div class="pagination">
-        <a href="?page={{ page + 1 }}" class="pagination-link">Следующие</a>
+        <a href="{{ next_page_url }}" class="pagination-link">Следующие</a>
     </div>
 {% endif %}
 {% endblock %}
