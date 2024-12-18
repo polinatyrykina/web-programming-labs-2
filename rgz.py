@@ -360,3 +360,4 @@ def admin_delete_user(user_id):
     else:
         cur.execute("SELECT * FROM userss WHERE id = ?", (session['user_id'],))
     db_close(conn, cur)
+    return redirect(url_for('rgz.admin_users'))
