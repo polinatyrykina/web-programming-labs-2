@@ -3,18 +3,20 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f0f2f5; /* Светло-серый фон */
+    color: #333; /* Основной цвет текста */
 }
 
 header {
-    background-color: #333;
+    background-color: #1e88e5; /* Ярко-синий */
     color: white;
-    padding: 10px 20px;
+    padding: 15px 20px;
     text-align: center;
 }
 
 header h1 {
     margin: 0;
+    font-size: 28px;
 }
 
 nav {
@@ -23,13 +25,14 @@ nav {
 
 nav a {
     color: white;
-    margin: 0 10px;
+    margin: 0 15px;
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.3s ease;
 }
 
 nav a:hover {
-    text-decoration: underline;
+    color: #ff5722; /* Оранжевый при наведении */
 }
 
 main {
@@ -37,11 +40,11 @@ main {
 }
 
 footer {
-    background-color: #333;
+    background-color: #1e88e5; /* Ярко-синий */
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: none;
+    position: relative;
     bottom: 0;
     width: 100%;
 }
@@ -50,15 +53,21 @@ footer {
 .user-card {
     background-color: white;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .user-card h3 {
     margin-top: 0;
-    color: #333;
+    color: #1e88e5; /* Ярко-синий */
 }
 
 .user-card p {
@@ -67,18 +76,19 @@ footer {
 }
 
 .user-card strong {
-    color: #333;
+    color: #34495e; /* Темно-синий */
 }
 
 .user-card a {
     display: inline-block;
     margin-top: 10px;
-    color: #007bff;
+    color: #ff5722; /* Оранжевый */
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .user-card a:hover {
-    text-decoration: underline;
+    color: #e64a19; /* Темнее оранжевый при наведении */
 }
 
 /* Стили для таблицы в админ-панели */
@@ -86,40 +96,45 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 table th, table td {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 15px;
     text-align: left;
 }
 
 table th {
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #1e88e5; /* Ярко-синий */
+    color: white;
 }
 
 table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f5f5f5; /* Светло-серый */
 }
 
 table tr:hover {
-    background-color: #f1f1f1;
+    background-color: #e3f2fd; /* Светло-голубой при наведении */
 }
+
 /* Стили для формы профиля */
 .profile-form {
     max-width: 600px;
     margin: 0 auto;
     background-color: white;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-form h2 {
     margin-top: 0;
-    color: #333;
+    color: #1e88e5; /* Ярко-синий */
     text-align: center;
 }
 
@@ -134,11 +149,12 @@ table tr:hover {
 .profile-form input[type="number"],
 .profile-form textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 .profile-form input[type="checkbox"] {
@@ -148,49 +164,48 @@ table tr:hover {
 .profile-form button {
     display: block;
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    padding: 12px;
+    background-color: #ff5722; /* Оранжевый */
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .profile-form button:hover {
-    background-color: #0056b3;
+    background-color: #e64a19; /* Темнее оранжевый при наведении */
 }
 
 .profile-form a {
     display: block;
     text-align: center;
     margin-top: 20px;
-    color: #007bff;
+    color: #1e88e5; /* Ярко-синий */
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .profile-form a:hover {
-    text-decoration: underline;
+    color: #1565c0; /* Темнее синий при наведении */
 }
 
-
-/* Общие стили для формы */
+/* Стили для формы регистрации */
 .registration-form {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для группы элементов формы */
 .form-group {
     margin-bottom: 15px;
 }
 
-/* Стили для меток */
 .form-group label {
     display: block;
     margin-bottom: 5px;
@@ -198,25 +213,23 @@ table tr:hover {
     color: #333;
 }
 
-/* Стили для полей ввода */
 .form-group input[type="text"],
 .form-group input[type="password"],
 .form-group input[type="number"],
 .form-group textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
 }
 
-/* Стили для кнопки отправки */
 .submit-button {
     display: block;
     width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
+    padding: 12px;
+    background-color: #1e88e5; /* Ярко-синий */
     color: white;
     border: none;
     border-radius: 5px;
@@ -226,113 +239,50 @@ table tr:hover {
 }
 
 .submit-button:hover {
-    background-color: #0056b3;
+    background-color: #1565c0; /* Темнее синий при наведении */
 }
 
-/* Стили для текстового поля */
 .form-group textarea {
     resize: vertical;
     min-height: 100px;
 }
-/* Общие стили для формы входа */
+
+/* Стили для формы входа */
 .login-form {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для группы элементов формы */
-.form-group {
-    margin-bottom: 15px;
+.login-form .submit-button {
+    background-color: #ff5722; /* Оранжевый */
 }
 
-/* Стили для меток */
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
+.login-form .submit-button:hover {
+    background-color: #e64a19; /* Темнее оранжевый при наведении */
 }
 
-/* Стили для полей ввода */
-.form-group input[type="text"],
-.form-group input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
-/* Стили для кнопки отправки */
-.submit-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745; /* Зеленый цвет для кнопки входа */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.submit-button:hover {
-    background-color: #218838; /* Темнее зеленый при наведении */
-}
 /* Стили для формы поиска */
 .search-form {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
-    margin-bottom: 15px;
+.search-form .submit-button {
+    background-color: #1e88e5; /* Ярко-синий */
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
-
-.form-group input[type="text"],
-.form-group input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
-.submit-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.submit-button:hover {
-    background-color: #0056b3;
+.search-form .submit-button:hover {
+    background-color: #1565c0; /* Темнее синий при наведении */
 }
 
 /* Стили для результатов поиска */
@@ -347,19 +297,26 @@ table tr:hover {
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.result-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .result-link {
-    color: #007BFF;
+    color: #ff5722; /* Оранжевый */
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
+    transition: color 0.3s ease;
 }
 
 .result-link:hover {
-    text-decoration: underline;
+    color: #e64a19; /* Темнее оранжевый при наведении */
 }
 
 .result-info {
@@ -376,7 +333,7 @@ table tr:hover {
 .pagination-link {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #1e88e5; /* Ярко-синий */
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -384,5 +341,5 @@ table tr:hover {
 }
 
 .pagination-link:hover {
-    background-color: #0056b3;
+    background-color: #1565c0; /* Темнее синий при наведении */
 }
