@@ -1,0 +1,29 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<div class="profile-form">
+    <h2>Профиль</h2>
+    <form method="POST">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" value="{{ user['name'] }}" required>
+
+        <label for="service_type">Вид услуги:</label>
+        <input type="text" id="service_type" name="service_type" value="{{ user['service_type'] }}" required>
+
+        <label for="experience">Стаж:</label>
+        <input type="number" id="experience" name="experience" value="{{ user['experience'] }}" required>
+
+        <label for="price">Цена:</label>
+        <input type="number" id="price" name="price" value="{{ user['price'] }}" required>
+
+        <label for="about">О себе:</label>
+        <textarea id="about" name="about">{{ user['about'] }}</textarea>
+
+        <label for="is_hidden">Скрыть профиль:</label>
+        <input type="checkbox" id="is_hidden" name="is_hidden" {% if user['is_hidden'] %}checked{% endif %}>
+
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="/delete_account">Удалить аккаунт</a>
+</div>
+{% endblock %}

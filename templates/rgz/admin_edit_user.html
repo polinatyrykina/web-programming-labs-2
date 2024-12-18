@@ -1,0 +1,20 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<h2>Редактирование пользователя: {{ user['name'] }}</h2>
+<form method="POST">
+    <label>Имя:</label>
+    <input type="text" name="name" value="{{ user['name'] }}" required><br>
+    <label>Вид услуги:</label>
+    <input type="text" name="service_type" value="{{ user['service_type'] }}" required><br>
+    <label>Стаж:</label>
+    <input type="number" name="experience" value="{{ user['experience'] }}" required><br>
+    <label>Цена:</label>
+    <input type="number" name="price" value="{{ user['price'] }}" required><br>
+    <label>О себе:</label>
+    <textarea name="about">{{ user['about'] }}</textarea><br>
+    <label>Скрыть профиль:</label>
+    <input type="checkbox" name="is_hidden" {% if user['is_hidden'] %}checked{% endif %}><br>
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<h2>Админ-панель</h2>
+<ul>
+    {% for user in users %}
+        <li>{{ user['name'] }} - {{ user['service_type'] }} (Стаж: {{ user['experience'] }}, Цена: {{ user['price'] }})</li>
+    {% endfor %}
+</ul>
+{% endblock %}

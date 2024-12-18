@@ -1,0 +1,52 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<h2>Поиск</h2>
+<form method="GET" class="search-form">
+    <div class="form-group">
+        <label for="query">Имя:</label>
+        <input type="text" id="query" name="query">
+    </div>
+    <div class="form-group">
+        <label for="service_type">Вид услуги:</label>
+        <input type="text" id="service_type" name="service_type">
+    </div>
+    <div class="form-group">
+        <label for="min_experience">Стаж (от):</label>
+        <input type="number" id="min_experience" name="min_experience">
+    </div>
+    <div class="form-group">
+        <label for="max_experience">Стаж (до):</label>
+        <input type="number" id="max_experience" name="max_experience">
+    </div>
+    <div class="form-group">
+        <label for="min_price">Цена (от):</label>
+        <input type="number" id="min_price" name="min_price">
+    </div>
+    <div class="form-group">
+        <label for="max_price">Цена (до):</label>
+        <input type="number" id="max_price" name="max_price">
+    </div>
+    <button type="submit" class="submit-button">Поиск</button>
+</form>
+
+<h2>Результаты поиска:</h2>
+<ul class="search-results">
+    {% for user in results %}
+        <li class="result-item">
+            <a href="{{ url_for('rgz.user_profile', user_id=user['id']) }}" class="result-link">
+                <strong>{{ user['name'] }}</strong> - {{ user['service_type'] }}
+            </a><br>
+            <span class="result-info">Стаж: {{ user['experience'] }} лет</span><br>
+            <span class="result-info">Цена: {{ user['price'] }} руб.</span><br>
+            <span class="result-info">О себе: {{ user['about'] }}</span>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if results %}
+    <div class="pagination">
+        <a href="?page={{ page + 1 }}" class="pagination-link">Следующие</a>
+    </div>
+{% endif %}
+{% endblock %}

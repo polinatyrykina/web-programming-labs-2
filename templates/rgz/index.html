@@ -1,0 +1,18 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<h2>Добро пожаловать!</h2>
+<p>Здесь вы можете найти профессионалов для выполнения различных услуг.</p>
+
+<h3>Все анкеты:</h3>
+{% for user in users %}
+    <div class="user-card">
+        <h3>{{ user['name'] }}</h3>
+        <p><strong>Вид услуги:</strong> {{ user['service_type'] }}</p>
+        <p><strong>Стаж:</strong> {{ user['experience'] }} лет</p>
+        <p><strong>Цена:</strong> {{ user['price'] }} руб.</p>
+        <p><strong>О себе:</strong> {{ user['about'] }}</p>
+        <a href="{{ url_for('rgz.user_profile', user_id=user['id']) }}">Подробнее</a>
+    </div>
+{% endfor %}
+{% endblock %}

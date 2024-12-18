@@ -176,7 +176,7 @@ def list():
 @lab5.route('/lab5/logout')
 def logout():
     session.pop('login', None)
-    return redirect(url_for('lab5.login')) 
+    return redirect(url_for('rgz.main')) 
 
 @lab5.route('/lab5/edit/<int:article_id>', methods=['GET', 'POST'])
 def edit(article_id):

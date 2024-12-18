@@ -1,25 +1,46 @@
 {% extends "base.html" %}
 
-{% block  lab %}Лабораторная работа 5{% endblock %}
+{% block lab %}Лабораторная работа 5{% endblock %}
 
 {% block main %}
-<a href="/lab5">Перейти в меню</a>
-    <h1>Регистрация</h1>
-    <form action = "/lab5/register" method="post">
-        <div>
-            <label>
-                Логин: <input type="text" name="login">
-            </label>
-        </div>
+<a href="/rgz">Перейти на главную страницу</a>
+<h1>Регистрация</h1>
+<form action="/lab5/register" method="post">
+    <div>
+        <label>Логин:</label>
+        <input type="text" name="login" required>
+    </div>
+    <div>
+        <label>Пароль:</label>
+        <input type="password" name="password" required>
+    </div>
+    <div>
+        <label>Вид услуги:</label>
+        <input type="text" name="service_type" required>
+    </div>
+    <div>
+        <label>Стаж:</label>
+        <input type="text" name="experience" required>
+    </div>
+    <div>
+        <label>Цена:</label>
+        <input type="text" name="price" required>
+    </div>
+    <div>
+        <label>О себе:</label>
+        <textarea name="about"></textarea>
+    </div>
+    <button type="submit">Зарегистрироваться</button>
+</form>
 
-        <div>
-            <label>
-                Пароль: <input type="password" name="password">
-            </label>
-        </div>
-        {% if error %}
-        <div style="color: red; font-weight: bold;">{{ error }}</div>
-        {% endif %}
-        <button type="submit">Зарегистрироваться</button>
-    </form>
+<!-- Вывод ошибок -->
+{% if errors %}
+<div style="color: red; font-weight: bold;">
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 {% endblock %}

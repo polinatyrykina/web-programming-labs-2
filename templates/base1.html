@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт услуг</title>
+    <link rel="stylesheet" href="/static/rgz/static.css">
+    <style>
+        /* Стили для flash-сообщений */
+        .flash-messages {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .flash-message {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            color: rgb(35, 26, 26);
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .flash-message.success {
+            background-color: #28a745; /* Зеленый */
+        }
+
+        .flash-message.error {
+            background-color: #dc3545; /* Красный */
+        }
+
+        .flash-message.info {
+            background-color: #17a2b8; /* Голубой */
+        }
+
+        .flash-message.warning {
+            background-color: #ffc107; /* Желтый */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Сайт услуг</h1>
+        <nav>
+            <a href="/rgz/">Главная</a>
+            {% if not session.user_id %}
+                <a href="/rgz/register">Регистрация</a>
+                <a href="/rgz/login">Вход</a>
+                <a href="/rgz/search">Поиск</a>
+            {% endif %}
+            {% if session.user_id %}
+                <a href="/rgz/profile">Профиль</a>
+                <a href="/rgz/search">Поиск</a>
+                <a href="/rgz/logout">Выход</a>
+                {% if session.is_admin %}
+                    <a href="/rgz/admin/users">Админ-панель</a>
+                {% endif %}
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>ФИО студента: Тырыкина Полина</p>
+        <p>Группа: ФБИ-23</p>
+    </footer>
+
+    <!-- Вывод flash-сообщений -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

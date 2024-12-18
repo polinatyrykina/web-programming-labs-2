@@ -1,0 +1,12 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<div class="user-card">
+    <h2>Анкета пользователя: {{ user['name'] }}</h2>
+    <p><strong>Вид услуги:</strong> {{ user['service_type'] }}</p>
+    <p><strong>Стаж:</strong> {{ user['experience'] }} лет</p>
+    <p><strong>Цена:</strong> {{ user['price'] }} руб.</p>
+    <p><strong>О себе:</strong> {{ user['about'] }}</p>
+    <a href="{{ url_for('rgz.index') }}">Вернуться на главную</a>
+</div>
+{% endblock %}
