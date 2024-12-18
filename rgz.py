@@ -35,7 +35,11 @@ def db_close(conn, cur):
 @rgz.route('/rgz/index')
 def index():
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users WHERE is_hidden = FALSE")  # Получаем только видимые анкеты
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM users WHERE is_hidden = FALSE")  # Получаем только видимые анкеты
+    else:
+        cur.execute("SELECT * FROM users WHERE is_hidden = FALSE") 
+
     users = cur.fetchall()
     db_close(conn, cur)
     return render_template('rgz/index.html', users=users)
@@ -53,7 +57,10 @@ def register():
 
         # Проверка, существует ли пользователь с таким именем
         conn, cur = db_connect()
-        cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+        else:
+            cur.execute("SELECT * FROM users WHERE username = ?", (username,))
         existing_user = cur.fetchone()
         db_close(conn, cur)
 
@@ -78,7 +85,10 @@ def login():
         password = request.form['password']
 
         conn, cur = db_connect()
-        cur.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
+        else:
+            cur.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
         user = cur.fetchone()
         db_close(conn, cur)
 
@@ -97,7 +107,10 @@ def profile():
         return redirect('/rgz/login')
 
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+    else:
+        cur.execute("SELECT * FROM users WHERE id = ?", (session['user_id'],))
     user = cur.fetchone()
     db_close(conn, cur)
 
@@ -110,8 +123,12 @@ def profile():
         is_hidden = 'is_hidden' in request.form
 
         conn, cur = db_connect()
-        cur.execute("UPDATE users SET name = %s, service_type = %s, experience = %s, price = %s, about = %s, is_hidden = %s WHERE id = %s",
-                    (name, service_type, experience, price, about, is_hidden, session['user_id']))
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("UPDATE users SET name = %s, service_type = %s, experience = %s, price = %s, about = %s, is_hidden = %s WHERE id = %s",
+                        (name, service_type, experience, price, about, is_hidden, session['user_id']))
+        else:
+            cur.execute("UPDATE users SET name = ?, service_type = ?, experience = ?, price = ?, about = ?, is_hidden = ? WHERE id = ?",
+                        (name, service_type, experience, price, about, is_hidden, session['user_id']))
         db_close(conn, cur)
         return redirect('/rgz/profile')
 
@@ -180,7 +197,10 @@ def delete_account():
         return redirect('/rgz/login')
 
     conn, cur = db_connect()
-    cur.execute("DELETE FROM users WHERE id = %s", (session['user_id'],))
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("DELETE FROM users WHERE id = %s", (session['user_id'],))
+    else:
+        cur.execute("DELETE FROM users WHERE id = ?", (session['user_id'],))
     db_close(conn, cur)
     session.pop('user_id', None)
     return redirect('/rgz/index')
@@ -191,7 +211,10 @@ def admin():
         return redirect('rgz/login')
 
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users WHERE is_admin = TRUE AND id = %s", (session['user_id'],))
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM users WHERE is_admin = TRUE AND id = %s", (session['user_id'],))
+    else:
+        cur.execute("SELECT * FROM users WHERE is_admin = TRUE AND id = ?", (session['user_id'],))
     admin_user = cur.fetchone()
     db_close(conn, cur)
 
@@ -208,7 +231,10 @@ def admin():
 @rgz.route('/rgz/user/<int:user_id>')
 def user_profile(user_id):
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    else:
+        cur.execute("SELECT * FROM users WHERE id = ?", (user_id,))
     user = cur.fetchone()
     db_close(conn, cur)
 
@@ -225,7 +251,10 @@ def admin_users():
         return redirect(url_for('rgz.login'))
 
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+    else:
+        cur.execute("SELECT * FROM users WHERE id = ?", (session['user_id'],))
     user = cur.fetchone()
     db_close(conn, cur)
 
@@ -247,7 +276,10 @@ def admin_edit_user(user_id):
         return redirect(url_for('rgz.login'))
 
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+    else:
+        cur.execute("SELECT * FROM users WHERE id = ?", (session['user_id'],))
     admin_user = cur.fetchone()
     db_close(conn, cur)
 
@@ -264,17 +296,27 @@ def admin_edit_user(user_id):
         is_hidden = 'is_hidden' in request.form
 
         conn, cur = db_connect()
-        cur.execute("""
-            UPDATE users
-            SET name = %s, service_type = %s, experience = %s, price = %s, about = %s, is_hidden = %s
-            WHERE id = %s
-        """, (name, service_type, experience, price, about, is_hidden, user_id))
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("""
+                UPDATE users
+                SET name = %s, service_type = %s, experience = %s, price = %s, about = %s, is_hidden = %s
+                WHERE id = %s
+            """, (name, service_type, experience, price, about, is_hidden, user_id))
+        else:
+            cur.execute("""
+                UPDATE users
+                SET name = ?, service_type = ?, experience = ?, price = ?, about = ?, is_hidden = ?
+                WHERE id = ?
+            """, (name, service_type, experience, price, about, is_hidden, user_id))
         db_close(conn, cur)
         flash('Пользователь успешно отредактирован')
         return redirect(url_for('rgz.admin_users'))
 
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    else:
+        cur.execute("SELECT * FROM users WHERE id = ?", (user_id,))
     user = cur.fetchone()
     db_close(conn, cur)
 
@@ -288,4 +330,7 @@ def admin_delete_user(user_id):
         return redirect(url_for('rgz.login'))
 
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+    else:
+        cur.execute("SELECT * FROM users WHERE id = ?", (session['user_id'],))
