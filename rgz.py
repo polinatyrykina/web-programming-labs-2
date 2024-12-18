@@ -356,8 +356,8 @@ def admin_delete_user(user_id):
 
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM userss WHERE id = %s", (session['user_id'],))
+        cur.execute("DELETE * FROM userss WHERE id = %s", (user_id,))
     else:
-        cur.execute("SELECT * FROM userss WHERE id = ?", (session['user_id'],))
+        cur.execute("DELETE * FROM userss WHERE id = ?", (user_id,))
     db_close(conn, cur)
     return redirect(url_for('rgz.admin_users'))
