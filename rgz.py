@@ -359,3 +359,4 @@ def admin_delete_user(user_id):
         cur.execute("SELECT * FROM userss WHERE id = %s", (session['user_id'],))
     else:
         cur.execute("SELECT * FROM userss WHERE id = ?", (session['user_id'],))
+    db_close(conn, cur)
