@@ -154,31 +154,52 @@ def search():
 
     # Добавляем условия в запрос, если значения заданы
     if query:
-        sql += " AND name LIKE %s"
+        if current_app.config['DB_TYPE'] == 'postgres':
+            sql += " AND name LIKE %s"
+        else:
+            sql += " AND name LIKE ?"
         params.append(f"%{query}%")
 
     if service_type:
-        sql += " AND service_type = %s"
+        if current_app.config['DB_TYPE'] == 'postgres':
+            sql += " AND service_type = %s"
+        else:
+            sql += " AND service_type = ?"
         params.append(service_type)
 
     if min_experience:
-        sql += " AND experience >= %s"
+        if current_app.config['DB_TYPE'] == 'postgres':
+            sql += " AND experience >= %s"
+        else:
+            sql += " AND experience >= ?"
         params.append(min_experience)
 
     if max_experience:
-        sql += " AND experience <= %s"
+        if current_app.config['DB_TYPE'] == 'postgres':
+            sql += " AND experience <= %s"
+        else:
+            sql += " AND experience <= ?"
         params.append(max_experience)
 
     if min_price:
-        sql += " AND price >= %s"
+        if current_app.config['DB_TYPE'] == 'postgres':
+            sql += " AND price >= %s"
+        else:
+            sql += " AND price >= ?"
         params.append(min_price)
 
     if max_price:
-        sql += " AND price <= %s"
+        if current_app.config['DB_TYPE'] == 'postgres':
+            sql += " AND price <= %s"
+        else:
+            sql += " AND price <= ?"
         params.append(max_price)
 
     # Добавляем пагинацию
-    sql += " LIMIT 5 OFFSET %s"
+    if current_app.config['DB_TYPE'] == 'postgres':
+        sql += " LIMIT 5 OFFSET %s"
+    else:
+        sql += " LIMIT 5 OFFSET ?"
     params.append((page - 1) * 5)
 
     # Выполняем запрос
