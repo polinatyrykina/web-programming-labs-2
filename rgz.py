@@ -70,7 +70,11 @@ def register():
 
         # Если пользователь не существует, выполняем вставку
         conn, cur = db_connect()
-        cur.execute("INSERT INTO userss (username, password, name, service_type, experience, price, about) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("INSERT INTO userss (username, password, name, service_type, experience, price, about) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                        (username, password, name, service_type, experience, price, about))
+        else:
+            cur.execute("INSERT INTO userss (username, password, name, service_type, experience, price, about) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     (username, password, name, service_type, experience, price, about))
         db_close(conn, cur)
         flash('Регистрация прошла успешно')
