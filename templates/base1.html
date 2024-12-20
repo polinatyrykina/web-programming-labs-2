@@ -45,8 +45,9 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Сайт услуг</h1>
+    <!-- Левая панель меню -->
+    <div class="sidebar">
+        
         <nav>
             <a href="/rgz/">Главная</a>
             {% if not session.user_id %}
@@ -63,14 +64,21 @@
                 {% endif %}
             {% endif %}
         </nav>
-    </header>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-    <footer>
-        <p>ФИО студента: Тырыкина Полина</p>
-        <p>Группа: ФБИ-23</p>
-    </footer>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content">
+        <header>
+            <h1>Сайт услуг</h1>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            <p>ФИО студента: Тырыкина Полина</p>
+            <p>Группа: ФБИ-23</p>
+        </footer>
+    </div>
 
     <!-- Вывод flash-сообщений -->
     <div class="flash-messages">

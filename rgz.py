@@ -36,7 +36,7 @@ def db_close(conn, cur):
 def index():
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM userss WHERE is_hidden = FALSE")  # Получаем только видимые анкеты
+        cur.execute("SELECT * FROM users WHERE is_hidden = FALSE")  # Получаем только видимые анкеты
     else:
         cur.execute("SELECT * FROM userss WHERE is_hidden = FALSE") 
 
@@ -58,7 +58,7 @@ def register():
         # Проверка, существует ли пользователь с таким именем
         conn, cur = db_connect()
         if current_app.config['DB_TYPE'] == 'postgres':
-            cur.execute("SELECT * FROM userss WHERE username = %s", (username,))
+            cur.execute("SELECT * FROM users WHERE username = %s", (username,))
         else:
             cur.execute("SELECT * FROM userss WHERE username = ?", (username,))
         existing_user = cur.fetchone()
@@ -71,7 +71,7 @@ def register():
         # Если пользователь не существует, выполняем вставку
         conn, cur = db_connect()
         if current_app.config['DB_TYPE'] == 'postgres':
-            cur.execute("INSERT INTO userss (username, password, name, service_type, experience, price, about) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            cur.execute("INSERT INTO users (username, password, name, service_type, experience, price, about) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                         (username, password, name, service_type, experience, price, about))
         else:
             cur.execute("INSERT INTO userss (username, password, name, service_type, experience, price, about) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -90,7 +90,7 @@ def login():
 
         conn, cur = db_connect()
         if current_app.config['DB_TYPE'] == 'postgres':
-            cur.execute("SELECT * FROM userss WHERE username = %s AND password = %s", (username, password))
+            cur.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
         else:
             cur.execute("SELECT * FROM userss WHERE username = ? AND password = ?", (username, password))
         user = cur.fetchone()
@@ -112,7 +112,7 @@ def profile():
 
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM userss WHERE id = %s", (session['user_id'],))
+        cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
     else:
         cur.execute("SELECT * FROM userss WHERE id = ?", (session['user_id'],))
     user = cur.fetchone()
@@ -128,7 +128,7 @@ def profile():
 
         conn, cur = db_connect()
         if current_app.config['DB_TYPE'] == 'postgres':
-            cur.execute("UPDATE userss SET name = %s, service_type = %s, experience = %s, price = %s, about = %s, is_hidden = %s WHERE id = %s",
+            cur.execute("UPDATE users SET name = %s, service_type = %s, experience = %s, price = %s, about = %s, is_hidden = %s WHERE id = %s",
                         (name, service_type, experience, price, about, is_hidden, session['user_id']))
         else:
             cur.execute("UPDATE userss SET name = ?, service_type = ?, experience = ?, price = ?, about = ?, is_hidden = ? WHERE id = ?",
@@ -151,7 +151,7 @@ def search():
     page = int(request.args.get('page', 1))
 
     # Начальный запрос
-    sql = "SELECT * FROM userss WHERE is_hidden = FALSE"
+    sql = "SELECT * FROM users WHERE is_hidden = FALSE"
     params = []
 
     # Добавляем условия в запрос, если значения заданы
@@ -232,7 +232,7 @@ def delete_account():
 
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("DELETE FROM userss WHERE id = %s", (session['user_id'],))
+        cur.execute("DELETE FROM users WHERE id = %s", (session['user_id'],))
     else:
         cur.execute("DELETE FROM userss WHERE id = ?", (session['user_id'],))
     db_close(conn, cur)
@@ -246,7 +246,7 @@ def admin():
 
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM userss WHERE is_admin = TRUE AND id = %s", (session['user_id'],))
+        cur.execute("SELECT * FROM users WHERE is_admin = TRUE AND id = %s", (session['user_id'],))
     else:
         cur.execute("SELECT * FROM userss WHERE is_admin = TRUE AND id = ?", (session['user_id'],))
     admin_user = cur.fetchone()
@@ -266,7 +266,7 @@ def admin():
 def user_profile(user_id):
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM userss WHERE id = %s", (user_id,))
+        cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
     else:
         cur.execute("SELECT * FROM userss WHERE id = ?", (user_id,))
     user = cur.fetchone()
@@ -286,7 +286,7 @@ def admin_users():
 
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM userss WHERE id = %s", (session['user_id'],))
+        cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
     else:
         cur.execute("SELECT * FROM userss WHERE id = ?", (session['user_id'],))
     user = cur.fetchone()
@@ -297,7 +297,7 @@ def admin_users():
         return redirect(url_for('rgz.index'))
 
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM userss")
+    cur.execute("SELECT * FROM users")
     users = cur.fetchall()
     db_close(conn, cur)
 
@@ -311,7 +311,7 @@ def admin_edit_user(user_id):
 
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM userss WHERE id = %s", (session['user_id'],))
+        cur.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
     else:
         cur.execute("SELECT * FROM userss WHERE id = ?", (session['user_id'],))
     admin_user = cur.fetchone()
@@ -348,7 +348,7 @@ def admin_edit_user(user_id):
 
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM userss WHERE id = %s", (user_id,))
+        cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
     else:
         cur.execute("SELECT * FROM userss WHERE id = ?", (user_id,))
     user = cur.fetchone()
@@ -365,7 +365,7 @@ def admin_delete_user(user_id):
 
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("DELETE FROM userss WHERE id = %s", (user_id,))
+        cur.execute("DELETE FROM users WHERE id = %s", (user_id,))
     else:
         cur.execute("DELETE FROM userss WHERE id = ?", (user_id,))
     db_close(conn, cur)

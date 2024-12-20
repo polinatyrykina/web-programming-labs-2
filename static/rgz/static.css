@@ -1,6 +1,6 @@
 /* Общие стили */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif; /* Используем шрифт Roboto */
     margin: 0;
     padding: 0;
     background-color: #f0f2f5; /* Светло-серый фон */
@@ -12,11 +12,13 @@ header {
     color: white;
     padding: 15px 20px;
     text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Тень для заголовка */
 }
 
 header h1 {
     margin: 0;
     font-size: 28px;
+    font-weight: 700; /* Жирный шрифт */
 }
 
 nav {
@@ -47,6 +49,7 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1); /* Тень для футера */
 }
 
 /* Стили для анкет пользователей */
@@ -68,6 +71,7 @@ footer {
 .user-card h3 {
     margin-top: 0;
     color: #1e88e5; /* Ярко-синий */
+    font-size: 22px;
 }
 
 .user-card p {
@@ -136,6 +140,7 @@ table tr:hover {
     margin-top: 0;
     color: #1e88e5; /* Ярко-синий */
     text-align: center;
+    font-size: 24px;
 }
 
 .profile-form label {
@@ -342,4 +347,45 @@ table tr:hover {
 
 .pagination-link:hover {
     background-color: #1565c0; /* Темнее синий при наведении */
+}
+
+
+/* Левая панель меню */
+.sidebar {
+    width: 250px; /* Фиксированная ширина панели */
+    height: 100vh; /* Высота на всю страницу */
+    background-color: #1e88e5; /* Ярко-синий */
+    color: white;
+    padding: 20px;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
+    position: fixed; /* Фиксируем панель слева */
+    top: 0;
+    left: 0;
+}
+
+.sidebar h1 {
+    margin: 0 0 20px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 10px 0;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.sidebar a:hover {
+    color: #ff5722; /* Оранжевый при наведении */
+}
+
+/* Основной контент */
+.content {
+    margin-left: 300px; /* Отступ для левой панели */
+    padding: 20px;
 }
