@@ -151,7 +151,7 @@ def search():
     page = int(request.args.get('page', 1))
 
     # Начальный запрос
-    sql = "SELECT * FROM users WHERE is_hidden = FALSE"
+    sql = "SELECT * FROM userss WHERE is_hidden = FALSE"
     params = []
 
     # Добавляем условия в запрос, если значения заданы
