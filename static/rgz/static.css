@@ -1,24 +1,24 @@
 /* Общие стили */
 body {
-    font-family: 'Roboto', Arial, sans-serif; /* Используем шрифт Roboto */
+    font-family: 'Roboto', Arial, sans-serif; 
     margin: 0;
     padding: 0;
-    background-color: #f0f2f5; /* Светло-серый фон */
-    color: #333; /* Основной цвет текста */
+    background-color: #f0f2f5; 
+    color: #333;
 }
 
 header {
-    background-color: #1e88e5; /* Ярко-синий */
+    background-color: #1e88e5; 
     color: white;
     padding: 15px 20px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Тень для заголовка */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
 
 header h1 {
     margin: 0;
     font-size: 28px;
-    font-weight: 700; /* Жирный шрифт */
+    font-weight: 700; 
 }
 
 nav {
@@ -34,7 +34,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #ff5722; /* Оранжевый при наведении */
+    color: #ff5722; 
 }
 
 main {
@@ -42,14 +42,14 @@ main {
 }
 
 footer {
-    background-color: #1e88e5; /* Ярко-синий */
+    background-color: #1e88e5; 
     color: white;
     text-align: center;
     padding: 10px 0;
     position: relative;
     bottom: 0;
     width: 100%;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1); /* Тень для футера */
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1); 
 }
 
 /* Стили для анкет пользователей */
@@ -70,7 +70,7 @@ footer {
 
 .user-card h3 {
     margin-top: 0;
-    color: #1e88e5; /* Ярко-синий */
+    color: #1e88e5; 
     font-size: 22px;
 }
 
@@ -80,19 +80,19 @@ footer {
 }
 
 .user-card strong {
-    color: #34495e; /* Темно-синий */
+    color: #34495e; 
 }
 
 .user-card a {
     display: inline-block;
     margin-top: 10px;
-    color: #ff5722; /* Оранжевый */
+    color: #ff5722; 
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .user-card a:hover {
-    color: #e64a19; /* Темнее оранжевый при наведении */
+    color: #e64a19; 
 }
 
 /* Стили для таблицы в админ-панели */
@@ -113,16 +113,16 @@ table th, table td {
 }
 
 table th {
-    background-color: #1e88e5; /* Ярко-синий */
+    background-color: #1e88e5; 
     color: white;
 }
 
 table tr:nth-child(even) {
-    background-color: #f5f5f5; /* Светло-серый */
+    background-color: #f5f5f5; 
 }
 
 table tr:hover {
-    background-color: #e3f2fd; /* Светло-голубой при наведении */
+    background-color: #e3f2fd; 
 }
 
 /* Стили для формы профиля */
@@ -138,7 +138,7 @@ table tr:hover {
 
 .profile-form h2 {
     margin-top: 0;
-    color: #1e88e5; /* Ярко-синий */
+    color: #1e88e5; 
     text-align: center;
     font-size: 24px;
 }
@@ -170,7 +170,7 @@ table tr:hover {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #ff5722; /* Оранжевый */
+    background-color: #ff5722; 
     color: white;
     border: none;
     border-radius: 5px;
@@ -180,20 +180,20 @@ table tr:hover {
 }
 
 .profile-form button:hover {
-    background-color: #e64a19; /* Темнее оранжевый при наведении */
+    background-color: #e64a19; 
 }
 
 .profile-form a {
     display: block;
     text-align: center;
     margin-top: 20px;
-    color: #1e88e5; /* Ярко-синий */
+    color: #1e88e5;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .profile-form a:hover {
-    color: #1565c0; /* Темнее синий при наведении */
+    color: #1565c0;
 }
 
 /* Стили для формы регистрации */
@@ -234,7 +234,7 @@ table tr:hover {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #1e88e5; /* Ярко-синий */
+    background-color: #1e88e5; 
     color: white;
     border: none;
     border-radius: 5px;
@@ -244,7 +244,7 @@ table tr:hover {
 }
 
 .submit-button:hover {
-    background-color: #1565c0; /* Темнее синий при наведении */
+    background-color: #1565c0; /
 }
 
 .form-group textarea {
@@ -264,11 +264,11 @@ table tr:hover {
 }
 
 .login-form .submit-button {
-    background-color: #ff5722; /* Оранжевый */
+    background-color: #ff5722; 
 }
 
 .login-form .submit-button:hover {
-    background-color: #e64a19; /* Темнее оранжевый при наведении */
+    background-color: #e64a19; 
 }
 
 /* Стили для формы поиска */
@@ -283,11 +283,11 @@ table tr:hover {
 }
 
 .search-form .submit-button {
-    background-color: #1e88e5; /* Ярко-синий */
+    background-color: #1e88e5; 
 }
 
 .search-form .submit-button:hover {
-    background-color: #1565c0; /* Темнее синий при наведении */
+    background-color: #1565c0; 
 }
 
 /* Стили для результатов поиска */
@@ -313,7 +313,7 @@ table tr:hover {
 }
 
 .result-link {
-    color: #ff5722; /* Оранжевый */
+    color: #ff5722;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
@@ -321,7 +321,7 @@ table tr:hover {
 }
 
 .result-link:hover {
-    color: #e64a19; /* Темнее оранжевый при наведении */
+    color: #e64a19;
 }
 
 .result-info {
@@ -338,7 +338,7 @@ table tr:hover {
 .pagination-link {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #1e88e5; /* Ярко-синий */
+    background-color: #1e88e5; 
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -346,19 +346,19 @@ table tr:hover {
 }
 
 .pagination-link:hover {
-    background-color: #1565c0; /* Темнее синий при наведении */
+    background-color: #1565c0; 
 }
 
 
 /* Левая панель меню */
 .sidebar {
-    width: 250px; /* Фиксированная ширина панели */
-    height: 100vh; /* Высота на всю страницу */
-    background-color: #1e88e5; /* Ярко-синий */
+    width: 250px; 
+    height: 100vh; 
+    background-color: #1e88e5; 
     color: white;
     padding: 20px;
     box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
-    position: fixed; /* Фиксируем панель слева */
+    position: fixed; 
     top: 0;
     left: 0;
 }
@@ -381,11 +381,11 @@ table tr:hover {
 }
 
 .sidebar a:hover {
-    color: #ff5722; /* Оранжевый при наведении */
+    color: #ff5722;
 }
 
 /* Основной контент */
 .content {
-    margin-left: 300px; /* Отступ для левой панели */
+    margin-left: 300px; 
     padding: 20px;
 }
