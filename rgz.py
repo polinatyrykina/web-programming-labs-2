@@ -297,7 +297,7 @@ def admin_users():
         return redirect(url_for('rgz.index'))
 
     conn, cur = db_connect()
-    cur.execute("SELECT * FROM users")
+    cur.execute("SELECT * FROM userss")
     users = cur.fetchall()
     db_close(conn, cur)
 

@@ -157,7 +157,7 @@ def list():
         cur.execute("SELECT * FROM articles WHERE is_public=TRUE OR login_id = (SELECT id FROM users WHERE login=%s) ORDER BY is_favorite DESC;", (login, ))
     else:
         cur.execute("SELECT * FROM articles WHERE is_public=TRUE OR login_id = (SELECT id FROM users WHERE login=?) ORDER BY is_favorite DESC;", (login, ))
-    login_id = cur.fetchone()["id"]
+    
     
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM articles WHERE is_public=TRUE ORDER BY is_favorite DESC;")
