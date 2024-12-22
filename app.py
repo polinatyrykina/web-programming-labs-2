@@ -12,8 +12,8 @@ from rgz import rgz
 
 import os
 from dotenv import load_dotenv
-from flask_sqlalchemy import SQLAlchemy
-from db import db
+# from flask_sqlalchemy import SQLAlchemy
+# from db import db
 
 app = Flask(__name__)
 
