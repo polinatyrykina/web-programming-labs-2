@@ -5,9 +5,10 @@
 {% block script %}{% endblock %}
 
 {% block main %}
-    <h1>Введите ваше имя</h1>
+    <h1>Введите ваш пол</h1>
     <form method="POST">
-        <input type="text" name="name" required>
+        <label><input type="radio" name="gender" value="male" required> Мужской</label>
+        <label><input type="radio" name="gender" value="female"> Женский</label>
         <button type="submit">Далее</button>
     </form>
 {% endblock %}
