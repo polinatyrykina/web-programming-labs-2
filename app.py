@@ -48,7 +48,7 @@ app.register_blueprint(lab5)
 app.register_blueprint(lab6)
 app.register_blueprint(lab7)
 app.register_blueprint(lab8)
-app.register_blueprint(lab8)
+app.register_blueprint(lab9)
 app.register_blueprint(rgz)
 
 @app.route("/")
