@@ -16,8 +16,19 @@ from os import path
 from dotenv import load_dotenv
 from db import db
 from flask_sqlalchemy import SQLAlchemy
+from db import db
+from db.models import users
+from flask_login import LoginManager
 
 app = Flask(__name__)
+
+login_manager = LoginManager()
+login_manager.login_view = 'lab8.login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_users(login_id):
+    return users.query.get(int(login_id))
 
 load_dotenv()
 
