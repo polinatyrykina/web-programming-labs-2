@@ -10,7 +10,8 @@ lab8 = Blueprint('lab8', __name__)
 
 @lab8.route('/lab8/')
 def lab():
-    return render_template('lab8/lab8.html')
+    user_login = current_user.login if current_user.is_authenticated else None
+    return render_template('lab8/lab8.html', login=user_login)
 
 @lab8.route('/lab8/register',methods = ['GET','POST'])
 def register():
@@ -56,11 +57,6 @@ def login():
         return render_template('lab8/login.html', 
                                error='Ошибка вход: логин и/или пароль неверны')
 
-@lab8.route('/lab8/articles') 
-@login_required
-def article_list():
-        return "список статей" 
-        # return render_template('lab8/articles.html')
 
 @lab8.route('/lab8/logout') 
 @login_required
@@ -75,18 +71,17 @@ def create_article():
         return render_template('lab8/create_article.html')
     
     title = request.form.get('title')
-    article_text = request.form.get('article_text')
+    article_text = request.form.get('article_text')  # Убедитесь, что это правильное имя поля
 
     new_article = articles(
         title=title,
-        article_text=article_text,
+        artcicle_text=article_text,  # Убедитесь, что это правильное имя атрибута
         login_id=current_user.id,
         is_favorite=False,
         likes=0
     )
     db.session.add(new_article)
     db.session.commit()
-
     return redirect('/lab8/articles')
 
 @lab8.route('/lab8/articles/<int:article_id>/edit', methods=['GET', 'POST'])
@@ -104,13 +99,20 @@ def edit_article(article_id):
     db.session.commit()
     return redirect('/lab8/articles')
 
-@lab8.route('/lab8/articles/<int:article_id>/delete', methods=['POST'])
-@login_required
-def delete_article(article_id):
-    article = articles.query.get_or_404(article_id)
-    if article.login_id != current_user.id:
-        return "У вас нет прав на удаление этой статьи", 403
-    
-    db.session.delete(article)
-    db.session.commit()
+@lab8.route('/lab8/articles/<int:article_id>/delete', methods=['POST']) 
+@login_required 
+def delete_article(article_id): 
+    print(f"Deleting article with ID: {article_id}")  # Логируем ID статьи
+    article = articles.query.get_or_404(article_id) 
+    if article.login_id != current_user.id: 
+        return "У вас нет прав на удаление этой статьи", 403 
+       
+    db.session.delete(article) 
+    db.session.commit() 
     return redirect('/lab8/articles')
+
+@lab8.route('/lab8/articles') 
+@login_required
+def article_list():
+    user_articles = articles.query.filter_by(login_id=current_user.id).all()
+    return render_template('lab8/articles.html', articles=user_articles)

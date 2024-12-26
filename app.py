@@ -19,6 +19,8 @@ from flask_sqlalchemy import SQLAlchemy
 from db import db
 from db.models import users
 from flask_login import LoginManager
+import secrets
+
 
 app = Flask(__name__)
 
@@ -32,7 +34,7 @@ def load_users(login_id):
 
 load_dotenv()
 
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'секретно-секретный секрет')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(16))
 app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
 
 if app.config['DB_TYPE'] == 'postgres':
