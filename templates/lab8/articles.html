@@ -4,27 +4,32 @@
 
 {% block main %}
     <h1>Список статей</h1>
-
+    <form action="{{ url_for('lab8.article_list') }}" method="GET" style="margin-bottom: 20px;">
+        <input type="text" name="search" placeholder="Поиск по статьям" value="{{ search_query }}">
+        <button type="submit" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">Искать</button>
+    </form>
     <a href="{{ url_for('lab8.create_article') }}" style="display: inline-block; margin-bottom: 20px; padding: 10px 15px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Создать новую статью</a>
-
     <a href="{{ url_for('lab8.lab') }}" style="display: inline-block; margin-bottom: 20px; padding: 10px 15px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-left: 10px;">Вернуться на главную</a>
-    
     {% if articles %}
         <ul>
-            {% for article in articles %}
+            {% for article, author in articles %}
                 <li style="margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
                     <h2>{{ article.title }}</h2>
                     <p>{{ article.artcicle_text }}</p>
+                    <p><strong>Автор:</strong> {{ author.login }}</p>
+                    <p><strong>Публичная:</strong> {{ 'Да' if article.is_public else 'Нет' }}</p>
                     <div>
-                        <a href="{{ url_for('lab8.edit_article', article_id=article.id) }}" style="padding: 5px 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 3px; margin-right: 10px;">Редактировать</a>
-                        <form action="{{ url_for('lab8.delete_article', article_id=article.id) }}" method="POST" style="display: inline;">
-                            <button type="submit" style="padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer;">Удалить</button>
-                        </form>
+                        {% if current_user.is_authenticated and article.login_id == current_user.id %}
+                            <a href="{{ url_for('lab8.edit_article', article_id=article.id) }}" style="padding: 5px 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 3px; margin-right: 10px;">Редактировать</a>
+                            <form action="{{ url_for('lab8.delete_article', article_id=article.id) }}" method="POST" style="display: inline;">
+                                <button type="submit" style="padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer;">Удалить</button>
+                            </form>
+                        {% endif %}
                     </div>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>У вас пока нет статей.</p>
+        <p>Статьи не найдены.</p>
     {% endif %}
 {% endblock %}

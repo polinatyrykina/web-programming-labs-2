@@ -71,13 +71,14 @@ def create_article():
         return render_template('lab8/create_article.html')
     
     title = request.form.get('title')
-    article_text = request.form.get('article_text')  # Убедитесь, что это правильное имя поля
+    article_text = request.form.get('article_text')
+    is_public = request.form.get('is_public') == 'on'
 
     new_article = articles(
         title=title,
-        artcicle_text=article_text,  # Убедитесь, что это правильное имя атрибута
+        artcicle_text=article_text,
         login_id=current_user.id,
-        is_favorite=False,
+        is_public=is_public,
         likes=0
     )
     db.session.add(new_article)
@@ -111,8 +112,21 @@ def delete_article(article_id):
     db.session.commit() 
     return redirect('/lab8/articles')
 
-@lab8.route('/lab8/articles') 
-@login_required
+@lab8.route('/lab8/articles')
 def article_list():
-    user_articles = articles.query.filter_by(login_id=current_user.id).all()
-    return render_template('lab8/articles.html', articles=user_articles)
+    search_query = request.args.get('search', '').strip() 
+    query = articles.query
+    if current_user.is_authenticated:
+        query = query.filter((articles.login_id == current_user.id) | (articles.is_public == True))
+    else:
+        query = query.filter(articles.is_public == True)
+    if search_query:
+        query = query.filter(articles.title.ilike(f'%{search_query}%') | articles.artcicle_text.ilike(f'%{search_query}%'))
+    all_articles = query.all()
+
+    articles_with_authors = []
+    for article in all_articles:
+        author = users.query.get(article.login_id) 
+        articles_with_authors.append((article, author))
+
+    return render_template('lab8/articles.html', articles=articles_with_authors, search_query=search_query)
