@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, render_template, request, redirect, session
 from db import db
 from db.models import users, articles
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 
@@ -32,6 +32,7 @@ def register():
     new_user = users(login=login_form, password=password_hash)
     db.session.add(new_user)
     db.session.commit()
+    login_user(new_user, remember=False)
     return redirect('/lab8/')
 
 @lab8.route('/lab8/login',methods = ['GET','POST'])
@@ -41,6 +42,7 @@ def login():
         
         login_form = request.form.get('login')
         password_form = request.form.get('password')
+        remember = request.form.get('remember') == 'on'
 
         user = users.query.filter_by(login=login_form).first()
 
@@ -49,7 +51,7 @@ def login():
 
         if user:
                 if check_password_hash(user.password, password_form):
-                        login_user(user, remember = False)
+                        login_user(user, remember = remember)
                         return redirect('/lab8/')
         return render_template('lab8/login.html', 
                                error='Ошибка вход: логин и/или пароль неверны')
@@ -60,7 +62,55 @@ def article_list():
         return "список статей" 
         # return render_template('lab8/articles.html')
 
-@lab8.route('/lab8/create') 
-def create(): 
-        return render_template('lab8/create_article.html')
+@lab8.route('/lab8/logout') 
+@login_required
+def logout():
+        logout_user()
+        return redirect('/lab8/')
 
+@lab8.route('/lab8/articles/create', methods=['GET', 'POST'])
+@login_required
+def create_article():
+    if request.method == 'GET':
+        return render_template('lab8/create_article.html')
+    
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')
+
+    new_article = articles(
+        title=title,
+        article_text=article_text,
+        login_id=current_user.id,
+        is_favorite=False,
+        likes=0
+    )
+    db.session.add(new_article)
+    db.session.commit()
+
+    return redirect('/lab8/articles')
+
+@lab8.route('/lab8/articles/<int:article_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_article(article_id):
+    article = articles.query.get_or_404(article_id)
+    if article.login_id != current_user.id:
+        return "У вас нет прав на редактирование этой статьи", 403
+    
+    if request.method == 'GET':
+        return render_template('lab8/edit_article.html', article=article)
+    
+    article.title = request.form.get('title')
+    article.article_text = request.form.get('article_text')
+    db.session.commit()
+    return redirect('/lab8/articles')
+
+@lab8.route('/lab8/articles/<int:article_id>/delete', methods=['POST'])
+@login_required
+def delete_article(article_id):
+    article = articles.query.get_or_404(article_id)
+    if article.login_id != current_user.id:
+        return "У вас нет прав на удаление этой статьи", 403
+    
+    db.session.delete(article)
+    db.session.commit()
+    return redirect('/lab8/articles')

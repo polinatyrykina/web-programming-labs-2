@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+    <h1>Редактирование статьи</h1>
+    <form method="post">
+        <div>
+            <label>
+                Заголовок: <input type="text" name="title" value="{{ article.title }}" required>
+            </label>
+        </div>
+        <div>
+            <label>
+                Содержание: <textarea name="article_text" required>{{ article.article_text }}</textarea>
+            </label>
+        </div>
+        <button type="submit">Сохранить</button>
+    </form>
+{% endblock %}
